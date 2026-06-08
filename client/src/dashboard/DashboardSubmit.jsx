@@ -28,15 +28,15 @@ export default function DashboardSubmit() {
 
   const inputStyle = (k) => ({
     width: '100%', padding: '10px 14px',
-    border: `1px solid ${focused[k] ? '#1a1a1a' : '#e5e5e5'}`,
-    borderRadius: 8, fontSize: 14, color: '#1a1a1a',
-    outline: 'none', background: '#fafafa',
+    border: `1px solid ${focused[k] ? 'var(--brand)' : 'var(--border)'}`,
+    borderRadius: 8, fontSize: 14, color: 'var(--text-strong)',
+    outline: 'none', background: 'var(--surface-muted)',
     transition: 'border-color 0.15s',
   });
 
   const labelStyle = {
     display: 'block', fontSize: 12,
-    fontWeight: 500, color: '#555', marginBottom: 6,
+    fontWeight: 500, color: 'var(--text-muted)', marginBottom: 6,
   };
 
   const validate = () => {
@@ -67,15 +67,16 @@ export default function DashboardSubmit() {
   if (submitted) return (
     <div style={{ maxWidth: 520, margin: '40px auto', textAlign: 'center' }}>
       <div style={{
-        background: '#fff', border: '1px solid #ebebeb',
+        background: 'var(--surface)', border: '1px solid var(--border)',
         borderRadius: 16, padding: '52px 40px',
+        boxShadow: 'var(--shadow)',
       }}>
         <div style={{ fontSize: 48, marginBottom: 16 }}>🎉</div>
-        <h2 style={{ fontSize: 22, fontWeight: 700, color: '#1a1a1a',
+        <h2 style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-strong)',
                      letterSpacing: '-0.5px', marginBottom: 8 }}>
           Event submitted!
         </h2>
-        <p style={{ fontSize: 14, color: '#888', lineHeight: 1.7, marginBottom: 28 }}>
+        <p style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: 28 }}>
           Thanks for suggesting an event. The Bridgemakers team will
           review your submission and publish it once approved.
           You'll see it on the Events page after approval.
@@ -83,7 +84,7 @@ export default function DashboardSubmit() {
         <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
           <Link to="/dashboard/events" style={{
             padding: '10px 22px', borderRadius: 8, fontSize: 13,
-            background: '#1a1a1a', color: '#fff',
+            background: 'var(--brand)', color: 'var(--brand-contrast)',
             fontWeight: 500, textDecoration: 'none',
           }}>
             View events
@@ -97,8 +98,8 @@ export default function DashboardSubmit() {
             });
           }} style={{
             padding: '10px 22px', borderRadius: 8, fontSize: 13,
-            border: '1px solid #e5e5e5', background: '#fff',
-            color: '#555', cursor: 'pointer', fontWeight: 500,
+            border: '1px solid var(--border)', background: 'var(--surface)',
+            color: 'var(--text-muted)', cursor: 'pointer', fontWeight: 500,
           }}>
             Submit another
           </button>
@@ -113,11 +114,11 @@ export default function DashboardSubmit() {
 
       {/* Header */}
       <div style={{ marginBottom: 24 }}>
-        <h1 style={{ fontSize: 22, fontWeight: 700, color: '#1a1a1a',
+        <h1 style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-strong)',
                      letterSpacing: '-0.5px', marginBottom: 4 }}>
           Suggest an event
         </h1>
-        <p style={{ fontSize: 14, color: '#888' }}>
+        <p style={{ fontSize: 14, color: 'var(--text-muted)' }}>
           Submit your event for review. Once approved by Bridgemakers
           it will appear on the events bulletin.
         </p>
@@ -125,9 +126,9 @@ export default function DashboardSubmit() {
 
       {/* Info banner */}
       <div style={{
-        background: '#eff6ff', border: '1px solid #bfdbfe',
+        background: 'var(--accent-wash)', border: '1px solid var(--border-strong)',
         borderRadius: 10, padding: '12px 16px',
-        fontSize: 13, color: '#1e40af', marginBottom: 24,
+        fontSize: 13, color: 'var(--brand)', marginBottom: 24,
         display: 'flex', gap: 10, alignItems: 'flex-start',
       }}>
         <span style={{ flexShrink: 0 }}>ℹ️</span>
@@ -141,19 +142,20 @@ export default function DashboardSubmit() {
 
         {/* Event details card */}
         <div style={{
-          background: '#fff', border: '1px solid #ebebeb',
+          background: 'var(--surface)', border: '1px solid var(--border)',
           borderRadius: 14, padding: '24px 28px', marginBottom: 16,
+          boxShadow: 'var(--shadow)',
         }}>
-          <h2 style={{ fontSize: 14, fontWeight: 600, color: '#1a1a1a',
+          <h2 style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-strong)',
                        marginBottom: 20, paddingBottom: 12,
-                       borderBottom: '1px solid #f3f3f3' }}>
+                       borderBottom: '1px solid var(--border)' }}>
             Event details
           </h2>
 
           {/* Title */}
           <div style={{ marginBottom: 16 }}>
             <label style={labelStyle}>
-              Event title <span style={{ color: '#e55' }}>*</span>
+              Event title <span style={{ color: 'var(--danger)' }}>*</span>
             </label>
             <input style={inputStyle('title')}
               placeholder="e.g. Founder Fireside Chat, VC Office Hours"
@@ -168,7 +170,7 @@ export default function DashboardSubmit() {
                         gap: 14, marginBottom: 16 }}>
             <div>
               <label style={labelStyle}>
-                Date <span style={{ color: '#e55' }}>*</span>
+                Date <span style={{ color: 'var(--danger)' }}>*</span>
               </label>
               <input type="date" style={inputStyle('date')}
                 value={form.date}
@@ -196,9 +198,9 @@ export default function DashboardSubmit() {
                   onClick={() => field('format', f)} style={{
                     flex: 1, padding: '10px', borderRadius: 8,
                     border: form.format === f
-                      ? '2px solid #1a1a1a' : '1px solid #e5e5e5',
-                    background: form.format === f ? '#1a1a1a' : '#fff',
-                    color: form.format === f ? '#fff' : '#555',
+                      ? '2px solid var(--brand)' : '1px solid var(--border)',
+                    background: form.format === f ? 'var(--brand)' : 'var(--surface-muted)',
+                    color: form.format === f ? 'var(--brand-contrast)' : 'var(--text-muted)',
                     fontSize: 13, fontWeight: 500, cursor: 'pointer',
                     transition: 'all 0.15s',
                   }}>
@@ -250,18 +252,19 @@ export default function DashboardSubmit() {
 
         {/* Submitter card */}
         <div style={{
-          background: '#fff', border: '1px solid #ebebeb',
+          background: 'var(--surface)', border: '1px solid var(--border)',
           borderRadius: 14, padding: '24px 28px', marginBottom: 16,
+          boxShadow: 'var(--shadow)',
         }}>
-          <h2 style={{ fontSize: 14, fontWeight: 600, color: '#1a1a1a',
+          <h2 style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-strong)',
                        marginBottom: 20, paddingBottom: 12,
-                       borderBottom: '1px solid #f3f3f3' }}>
+                       borderBottom: '1px solid var(--border)' }}>
             Your details
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
             <div>
               <label style={labelStyle}>
-                Your name <span style={{ color: '#e55' }}>*</span>
+                Your name <span style={{ color: 'var(--danger)' }}>*</span>
               </label>
               <input style={inputStyle('sbname')}
                 value={form.submittedBy.name}
@@ -273,7 +276,7 @@ export default function DashboardSubmit() {
             </div>
             <div>
               <label style={labelStyle}>
-                Your email <span style={{ color: '#e55' }}>*</span>
+                Your email <span style={{ color: 'var(--danger)' }}>*</span>
               </label>
               <input type="email" style={inputStyle('sbemail')}
                 value={form.submittedBy.email}
@@ -290,8 +293,9 @@ export default function DashboardSubmit() {
         {error && (
           <div style={{
             padding: '12px 16px', borderRadius: 8, marginBottom: 16,
-            background: '#fff1f1', border: '1px solid #fecaca',
-            fontSize: 13, color: '#dc2626',
+            background: 'var(--danger-soft)',
+            border: '1px solid color-mix(in srgb, var(--danger) 24%, transparent)',
+            fontSize: 13, color: 'var(--danger)',
           }}>
             {error}
           </div>
@@ -300,10 +304,11 @@ export default function DashboardSubmit() {
         {/* Submit button */}
         <button type="submit" disabled={loading} style={{
           width: '100%', padding: '14px', borderRadius: 10,
-          background: loading ? '#999' : '#1a1a1a',
-          color: '#fff', border: 'none', fontSize: 15,
+          background: loading ? 'var(--text-subtle)' : 'var(--brand)',
+          color: 'var(--brand-contrast)', border: 'none', fontSize: 15,
           fontWeight: 600, cursor: loading ? 'not-allowed' : 'pointer',
-          transition: 'background 0.15s', marginBottom: 14,
+          transition: 'opacity 0.15s', marginBottom: 14,
+          boxShadow: loading ? 'none' : 'var(--shadow)',
         }}>
           {loading ? 'Submitting...' : 'Submit for review →'}
         </button>
@@ -311,13 +316,13 @@ export default function DashboardSubmit() {
         {/* Google Form fallback */}
         <div style={{
           textAlign: 'center', padding: '14px',
-          border: '1px dashed #ddd', borderRadius: 10,
+          border: '1px dashed var(--border)', borderRadius: 10,
         }}>
-          <p style={{ fontSize: 12, color: '#aaa', marginBottom: 6 }}>
+          <p style={{ fontSize: 12, color: 'var(--text-subtle)', marginBottom: 6 }}>
             Prefer to use a form instead?
           </p>
           <a href={GOOGLE_FORM_URL} target="_blank" rel="noreferrer"
-            style={{ fontSize: 13, color: '#4f46e5', fontWeight: 500 }}>
+            style={{ fontSize: 13, color: 'var(--brand)', fontWeight: 500 }}>
             Fill out the Google Form →
           </a>
         </div>

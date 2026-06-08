@@ -23,10 +23,10 @@ export default function Signup() {
 
   const inputStyle = (focused) => ({
     width: '100%', padding: '11px 14px',
-    border: `1px solid ${focused ? '#1a1a1a' : '#e5e5e5'}`,
-    borderRadius: 8, fontSize: 14, color: '#1a1a1a',
-    outline: 'none', background: '#fafafa',
-    transition: 'border-color 0.15s',
+    border: `1px solid ${focused ? 'var(--brand)' : 'var(--border)'}`,
+    borderRadius: 12, fontSize: 14, color: 'var(--text-strong)',
+    outline: 'none', background: 'var(--surface-muted)',
+    transition: 'border-color 0.15s, box-shadow 0.15s',
   });
 
   const [focused, setFocused] = useState({});
@@ -35,7 +35,7 @@ export default function Signup() {
 
   const labelStyle = {
     display: 'block', fontSize: 12,
-    fontWeight: 500, color: '#555', marginBottom: 6,
+    fontWeight: 500, color: 'var(--text-muted)', marginBottom: 6,
   };
 
   const validateStep1 = () => {
@@ -82,26 +82,28 @@ export default function Signup() {
 
   return (
     <div style={{
-      minHeight: 'calc(100vh - 56px)', background: '#f9f8f6',
+      minHeight: 'calc(100vh - 72px)', background: 'transparent',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
-      padding: '40px 24px',
+      padding: '56px 24px',
     }}>
       <div style={{ width: '100%', maxWidth: 520 }}>
 
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: 28 }}>
           <div style={{
-            width: 44, height: 44, borderRadius: 12, background: '#1a1a1a',
+            width: 48, height: 48, borderRadius: 16,
+            background: 'linear-gradient(135deg, var(--brand), var(--brand-strong))',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: 20, margin: '0 auto 16px',
+            boxShadow: 'var(--shadow)',
           }}>🌉</div>
-          <h1 style={{ fontSize: 24, fontWeight: 700, color: '#1a1a1a',
+          <h1 style={{ fontSize: 24, fontWeight: 800, color: 'var(--text-strong)',
                        letterSpacing: '-0.5px', marginBottom: 6 }}>
             Join The Bridge
           </h1>
-          <p style={{ fontSize: 14, color: '#888' }}>
+          <p style={{ fontSize: 14, color: 'var(--text-muted)' }}>
             Already a member?{' '}
-            <Link to="/login" style={{ color: '#4f46e5', fontWeight: 500 }}>
+            <Link to="/login" style={{ color: 'var(--brand)', fontWeight: 600 }}>
               Log in
             </Link>
           </p>
@@ -114,19 +116,19 @@ export default function Signup() {
             <div key={s} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <div style={{
                 width: 28, height: 28, borderRadius: '50%',
-                background: step >= s ? '#1a1a1a' : '#e5e5e5',
-                color: step >= s ? '#fff' : '#aaa',
+                background: step >= s ? 'linear-gradient(135deg, var(--brand), var(--brand-strong))' : 'var(--surface-muted)',
+                color: step >= s ? 'var(--brand-contrast)' : 'var(--text-subtle)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: 12, fontWeight: 600, transition: 'all 0.2s',
               }}>
                 {step > s ? '✓' : s}
               </div>
-              <span style={{ fontSize: 12, color: step >= s ? '#1a1a1a' : '#aaa', fontWeight: 500 }}>
+              <span style={{ fontSize: 12, color: step >= s ? 'var(--text-strong)' : 'var(--text-subtle)', fontWeight: 600 }}>
                 {s === 1 ? 'Account' : 'Your profile'}
               </span>
               {s < 2 && (
                 <div style={{ width: 32, height: 1,
-                              background: step > s ? '#1a1a1a' : '#e5e5e5' }} />
+                              background: step > s ? 'var(--brand)' : 'var(--border)' }} />
               )}
             </div>
           ))}
@@ -134,20 +136,21 @@ export default function Signup() {
 
         {/* Card */}
         <div style={{
-          background: '#fff', border: '1px solid #ebebeb',
-          borderRadius: 16, padding: '32px 32px',
+          background: 'var(--surface)', border: '1px solid var(--border)',
+          borderRadius: 24, padding: '32px 32px',
+          boxShadow: 'var(--shadow)',
         }}>
 
           {/* ── Step 1: Account details ── */}
           {step === 1 && (
             <div>
-              <h2 style={{ fontSize: 15, fontWeight: 600, color: '#1a1a1a', marginBottom: 20 }}>
+              <h2 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-strong)', marginBottom: 20 }}>
                 Create your account
               </h2>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                 <div>
-                  <label style={labelStyle}>Full name <span style={{color:'#e55'}}>*</span></label>
+                  <label style={{ ...labelStyle, color: 'var(--text-muted)' }}>Full name <span style={{color:'var(--danger)'}}>*</span></label>
                   <input style={inputStyle(focused.name)}
                     placeholder="Alex Turner"
                     value={form.name}
@@ -156,7 +159,7 @@ export default function Signup() {
                 </div>
 
                 <div>
-                  <label style={labelStyle}>Email <span style={{color:'#e55'}}>*</span></label>
+                  <label style={{ ...labelStyle, color: 'var(--text-muted)' }}>Email <span style={{color:'var(--danger)'}}>*</span></label>
                   <input style={inputStyle(focused.email)} type="email"
                     placeholder="alex@example.com"
                     value={form.email}
@@ -165,7 +168,7 @@ export default function Signup() {
                 </div>
 
                 <div>
-                  <label style={labelStyle}>Password <span style={{color:'#e55'}}>*</span></label>
+                  <label style={{ ...labelStyle, color: 'var(--text-muted)' }}>Password <span style={{color:'var(--danger)'}}>*</span></label>
                   <input style={inputStyle(focused.password)} type="password"
                     placeholder="At least 6 characters"
                     value={form.password}
@@ -174,7 +177,7 @@ export default function Signup() {
                 </div>
 
                 <div>
-                  <label style={labelStyle}>Confirm password <span style={{color:'#e55'}}>*</span></label>
+                  <label style={{ ...labelStyle, color: 'var(--text-muted)' }}>Confirm password <span style={{color:'var(--danger)'}}>*</span></label>
                   <input style={inputStyle(focused.confirm)} type="password"
                     placeholder="Repeat your password"
                     value={form.confirmPassword}
@@ -186,8 +189,8 @@ export default function Signup() {
               {error && (
                 <div style={{
                   marginTop: 16, padding: '10px 14px', borderRadius: 8,
-                  background: '#fff1f1', border: '1px solid #fecaca',
-                  fontSize: 13, color: '#dc2626',
+                  background: 'var(--danger-soft)', border: '1px solid color-mix(in srgb, var(--danger) 24%, transparent)',
+                  fontSize: 13, color: 'var(--danger)',
                 }}>
                   {error}
                 </div>
@@ -195,8 +198,9 @@ export default function Signup() {
 
               <button onClick={handleNext} style={{
                 width: '100%', marginTop: 24, padding: '13px',
-                background: '#1a1a1a', color: '#fff', border: 'none',
-                borderRadius: 10, fontSize: 14, fontWeight: 600, cursor: 'pointer',
+                background: 'linear-gradient(135deg, var(--brand), var(--brand-strong))', color: 'var(--brand-contrast)', border: 'none',
+                borderRadius: 12, fontSize: 14, fontWeight: 700, cursor: 'pointer',
+                boxShadow: 'var(--shadow)',
               }}>
                 Continue →
               </button>
@@ -206,20 +210,20 @@ export default function Signup() {
           {/* ── Step 2: Profile details ── */}
           {step === 2 && (
             <form onSubmit={handleSubmit}>
-              <h2 style={{ fontSize: 15, fontWeight: 600, color: '#1a1a1a', marginBottom: 20 }}>
+              <h2 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-strong)', marginBottom: 20 }}>
                 Tell us about yourself
               </h2>
 
               {/* Member type */}
               <div style={{ marginBottom: 20 }}>
-                <label style={labelStyle}>I am a... <span style={{color:'#e55'}}>*</span></label>
+                <label style={{ ...labelStyle, color: 'var(--text-muted)' }}>I am a... <span style={{color:'var(--danger)'}}>*</span></label>
                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                   {MEMBER_TYPES.map(t => (
                     <button key={t} type="button" onClick={() => field('memberType', t)} style={{
                       padding: '7px 16px', borderRadius: 20, fontSize: 12, fontWeight: 500,
-                      border: form.memberType === t ? '2px solid #1a1a1a' : '1px solid #e5e5e5',
-                      background: form.memberType === t ? '#1a1a1a' : '#fff',
-                      color: form.memberType === t ? '#fff' : '#555',
+                      border: form.memberType === t ? '2px solid var(--brand)' : '1px solid var(--border)',
+                      background: form.memberType === t ? 'linear-gradient(135deg, var(--brand), var(--brand-strong))' : 'var(--surface-solid)',
+                      color: form.memberType === t ? 'var(--brand-contrast)' : 'var(--text-muted)',
                       cursor: 'pointer', transition: 'all 0.15s',
                     }}>
                       {t}
@@ -230,21 +234,21 @@ export default function Signup() {
 
               {/* Member vs Mentor */}
               <div style={{ marginBottom: 20 }}>
-                <label style={labelStyle}>My role on The Bridge</label>
+                <label style={{ ...labelStyle, color: 'var(--text-muted)' }}>My role on The Bridge</label>
                 <div style={{ display: 'flex', gap: 10 }}>
                   {['Member', 'Mentor'].map(r => (
                     <button key={r} type="button" onClick={() => field('platformRole', r)} style={{
                       flex: 1, padding: '10px 12px', borderRadius: 10,
-                      border: form.platformRole === r ? '2px solid #1a1a1a' : '1px solid #e5e5e5',
-                      background: form.platformRole === r ? '#1a1a1a' : '#fff',
-                      color: form.platformRole === r ? '#fff' : '#555',
+                      border: form.platformRole === r ? '2px solid var(--brand)' : '1px solid var(--border)',
+                      background: form.platformRole === r ? 'linear-gradient(135deg, var(--brand), var(--brand-strong))' : 'var(--surface-solid)',
+                      color: form.platformRole === r ? 'var(--brand-contrast)' : 'var(--text-muted)',
                       cursor: 'pointer', transition: 'all 0.15s', textAlign: 'left',
                     }}>
                       <div style={{ fontSize: 13, fontWeight: 600 }}>
                         {r === 'Member' ? '👤 Member' : '🎓 Mentor'}
                       </div>
                       <div style={{ fontSize: 11, marginTop: 2,
-                                    color: form.platformRole === r ? '#aaa' : '#bbb' }}>
+                                    color: form.platformRole === r ? 'var(--brand-soft-text)' : 'var(--text-subtle)' }}>
                         {r === 'Member' ? 'Connect & collaborate' : 'Guide others'}
                       </div>
                     </button>
@@ -302,8 +306,8 @@ export default function Signup() {
               {error && (
                 <div style={{
                   marginTop: 16, padding: '10px 14px', borderRadius: 8,
-                  background: '#fff1f1', border: '1px solid #fecaca',
-                  fontSize: 13, color: '#dc2626',
+                  background: 'var(--danger-soft)', border: '1px solid color-mix(in srgb, var(--danger) 24%, transparent)',
+                  fontSize: 13, color: 'var(--danger)',
                 }}>
                   {error}
                 </div>
@@ -312,15 +316,17 @@ export default function Signup() {
               <div style={{ display: 'flex', gap: 10, marginTop: 24 }}>
                 <button type="button" onClick={() => { setStep(1); setError(''); }} style={{
                   padding: '13px 20px', borderRadius: 10, fontSize: 14,
-                  border: '1px solid #e5e5e5', background: '#fff',
-                  color: '#555', cursor: 'pointer', fontWeight: 500,
+                  border: '1px solid var(--border)', background: 'var(--surface)',
+                  color: 'var(--text-muted)', cursor: 'pointer', fontWeight: 500,
                 }}>
                   ← Back
                 </button>
                 <button type="submit" disabled={loading} style={{
                   flex: 1, padding: '13px', borderRadius: 10, fontSize: 14,
                   fontWeight: 600, border: 'none', cursor: loading ? 'not-allowed' : 'pointer',
-                  background: loading ? '#999' : '#1a1a1a', color: '#fff',
+                  background: loading ? 'var(--text-subtle)' : 'linear-gradient(135deg, var(--brand), var(--brand-strong))',
+                  color: 'var(--brand-contrast)',
+                  boxShadow: loading ? 'none' : 'var(--shadow)',
                 }}>
                   {loading ? 'Creating account...' : 'Create account →'}
                 </button>
@@ -329,7 +335,7 @@ export default function Signup() {
           )}
         </div>
 
-        <p style={{ textAlign: 'center', fontSize: 12, color: '#bbb', marginTop: 16 }}>
+          <p style={{ textAlign: 'center', fontSize: 12, color: 'var(--text-subtle)', marginTop: 16 }}>
           By joining you agree to keep your info accurate and up to date.
         </p>
       </div>

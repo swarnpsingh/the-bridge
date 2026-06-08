@@ -25,35 +25,39 @@ function ProtectedRoute({ children }) {
 export default function App() {
   return (
     <BrowserRouter>
-      <Navbar />
-      <Routes>
-        {/* Public */}
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/members" element={<Members />} />
-        <Route path="/members/create" element={<CreateProfile />} />
+      <div className="app-shell">
+        <Navbar />
+        <main style={{ flex: 1, width: '100%' }}>
+          <Routes>
+            {/* Public */}
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/members" element={<Members />} />
+            <Route path="/members/create" element={<CreateProfile />} />
 
-        {/* Protected dashboard */}
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <DashboardLayout />
-            </ProtectedRoute>
-          }
-        >
-          <Route index element={<DashboardHome />} />
-          <Route path="members" element={<DashboardMembers />} />
-          <Route path="events" element={<DashboardEvents />} />
-          <Route path="services" element={<DashboardServices />} />
-          <Route path="submit" element={<DashboardSubmit />} />
-          <Route path="profile" element={<DashboardProfile />} />
-        </Route>
+            {/* Protected dashboard */}
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route index element={<DashboardHome />} />
+              <Route path="members" element={<DashboardMembers />} />
+              <Route path="events" element={<DashboardEvents />} />
+              <Route path="services" element={<DashboardServices />} />
+              <Route path="submit" element={<DashboardSubmit />} />
+              <Route path="profile" element={<DashboardProfile />} />
+            </Route>
 
-        {/* Admin */}
-        <Route path="/admin/login" element={<div>Admin Login</div>} />
-      </Routes>
+            {/* Admin */}
+            <Route path="/admin/login" element={<div style={{ padding: 24, color: 'var(--text-muted)' }}>Admin Login</div>} />
+          </Routes>
+        </main>
+      </div>
     </BrowserRouter>
   );
 }

@@ -6,7 +6,7 @@ require('dotenv').config();
 
 const app = express();
 app.use(cors({ origin: 'http://localhost:3000' }));
-app.use(express.json());
+app.use(express.json()); 
 
 // Public
 app.use('/api/auth',    require('./routes/auth'));
@@ -38,13 +38,14 @@ async function init() {
     } catch (err) {
       console.warn('MongoDB connection failed:', err.message);
     }
+    app.listen(port, () => {
+    console.log(`Server listening on port ${port} (db:${dbConnected ? 'connected' : 'disconnected'})`);
+  });
   } else {
     console.warn('MONGO_URI not provided; skipping DB connection');
   }
 
-  app.listen(port, () => {
-    console.log(`Server listening on port ${port} (db:${dbConnected ? 'connected' : 'disconnected'})`);
-  });
+  
 }
 
 // Global unhandled exception logging

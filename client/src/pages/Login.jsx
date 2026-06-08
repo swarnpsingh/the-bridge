@@ -18,10 +18,10 @@ export default function Login() {
 
   const inputStyle = (k) => ({
     width: '100%', padding: '11px 14px',
-    border: `1px solid ${focused[k] ? '#1a1a1a' : '#e5e5e5'}`,
-    borderRadius: 8, fontSize: 14, color: '#1a1a1a',
-    outline: 'none', background: '#fafafa',
-    transition: 'border-color 0.15s',
+    border: `1px solid ${focused[k] ? 'var(--brand)' : 'var(--border)'}`,
+    borderRadius: 12, fontSize: 14, color: 'var(--text-strong)',
+    outline: 'none', background: 'var(--surface-muted)',
+    transition: 'border-color 0.15s, box-shadow 0.15s',
   });
 
   const handleSubmit = async (e) => {
@@ -45,26 +45,28 @@ export default function Login() {
 
   return (
     <div style={{
-      minHeight: 'calc(100vh - 56px)', background: '#f9f8f6',
+      minHeight: 'calc(100vh - 72px)', background: 'transparent',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
-      padding: '40px 24px',
+      padding: '56px 24px',
     }}>
       <div style={{ width: '100%', maxWidth: 420 }}>
 
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: 28 }}>
           <div style={{
-            width: 44, height: 44, borderRadius: 12, background: '#1a1a1a',
+            width: 48, height: 48, borderRadius: 16,
+            background: 'linear-gradient(135deg, var(--brand), var(--brand-strong))',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: 20, margin: '0 auto 16px',
+            boxShadow: 'var(--shadow)',
           }}>🌉</div>
-          <h1 style={{ fontSize: 24, fontWeight: 700, color: '#1a1a1a',
+          <h1 style={{ fontSize: 24, fontWeight: 800, color: 'var(--text-strong)',
                        letterSpacing: '-0.5px', marginBottom: 6 }}>
             Welcome back
           </h1>
-          <p style={{ fontSize: 14, color: '#888' }}>
+          <p style={{ fontSize: 14, color: 'var(--text-muted)' }}>
             Not a member yet?{' '}
-            <Link to="/signup" style={{ color: '#4f46e5', fontWeight: 500 }}>
+            <Link to="/signup" style={{ color: 'var(--brand)', fontWeight: 600 }}>
               Join now
             </Link>
           </p>
@@ -72,14 +74,15 @@ export default function Login() {
 
         {/* Card */}
         <div style={{
-          background: '#fff', border: '1px solid #ebebeb',
-          borderRadius: 16, padding: '32px',
+          background: 'var(--surface)', border: '1px solid var(--border)',
+          borderRadius: 24, padding: '32px',
+          boxShadow: 'var(--shadow)',
         }}>
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
 
             <div>
               <label style={{ display: 'block', fontSize: 12, fontWeight: 500,
-                              color: '#555', marginBottom: 6 }}>
+                              color: 'var(--text-muted)', marginBottom: 6 }}>
                 Email
               </label>
               <input style={inputStyle('email')} type="email"
@@ -92,7 +95,7 @@ export default function Login() {
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between',
                             alignItems: 'center', marginBottom: 6 }}>
-                <label style={{ fontSize: 12, fontWeight: 500, color: '#555' }}>
+                <label style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-muted)' }}>
                   Password
                 </label>
               </div>
@@ -106,8 +109,8 @@ export default function Login() {
             {error && (
               <div style={{
                 padding: '10px 14px', borderRadius: 8,
-                background: '#fff1f1', border: '1px solid #fecaca',
-                fontSize: 13, color: '#dc2626',
+                background: 'var(--danger-soft)', border: '1px solid color-mix(in srgb, var(--danger) 24%, transparent)',
+                fontSize: 13, color: 'var(--danger)',
               }}>
                 {error}
               </div>
@@ -115,11 +118,12 @@ export default function Login() {
 
             <button type="submit" disabled={loading} style={{
               width: '100%', padding: '13px', marginTop: 4,
-              background: loading ? '#999' : '#1a1a1a',
-              color: '#fff', border: 'none', borderRadius: 10,
-              fontSize: 14, fontWeight: 600,
+              background: loading ? 'var(--text-subtle)' : 'linear-gradient(135deg, var(--brand), var(--brand-strong))',
+              color: 'var(--brand-contrast)', border: 'none', borderRadius: 12,
+              fontSize: 14, fontWeight: 700,
               cursor: loading ? 'not-allowed' : 'pointer',
-              transition: 'background 0.15s',
+              transition: 'transform 0.15s, box-shadow 0.15s',
+              boxShadow: loading ? 'none' : 'var(--shadow)',
             }}>
               {loading ? 'Signing in...' : 'Sign in →'}
             </button>
@@ -127,9 +131,9 @@ export default function Login() {
         </div>
 
         {/* Admin link */}
-        <p style={{ textAlign: 'center', marginTop: 20, fontSize: 12, color: '#ccc' }}>
+        <p style={{ textAlign: 'center', marginTop: 20, fontSize: 12, color: 'var(--text-subtle)' }}>
           Bridgemakers staff?{' '}
-          <Link to="/admin/login" style={{ color: '#aaa' }}>
+          <Link to="/admin/login" style={{ color: 'var(--brand)' }}>
             Admin login →
           </Link>
         </p>

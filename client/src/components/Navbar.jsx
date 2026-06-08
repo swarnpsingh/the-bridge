@@ -1,11 +1,13 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 
 const initials = (name) =>
   name ? name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) : '?';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
+  const { mode, toggleTheme } = useTheme();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -17,8 +19,8 @@ export default function Navbar() {
     fontSize: 14,
     padding: '6px 12px',
     borderRadius: 6,
-    color: isActive ? '#1a1a1a' : '#666',
-    background: isActive ? '#f0efe9' : 'transparent',
+    color: isActive ? 'var(--text-strong)' : 'var(--text-muted)',
+    background: isActive ? 'var(--brand-soft)' : 'transparent',
     fontWeight: isActive ? 500 : 400,
     transition: 'all 0.15s',
     textDecoration: 'none',
@@ -26,24 +28,36 @@ export default function Navbar() {
 
   return (
     <nav style={{
-      background: '#fff',
-      borderBottom: '1px solid #ebebeb',
+      background: 'color-mix(in srgb, var(--surface) 86%, transparent)',
+      borderBottom: '1px solid var(--border)',
+      backdropFilter: 'blur(18px)',
       position: 'sticky', top: 0, zIndex: 100,
+      boxShadow: '0 12px 32px rgba(15, 23, 42, 0.05)',
     }}>
       <div style={{
-        maxWidth: 1080, margin: '0 auto', padding: '0 24px',
-        height: 56, display: 'flex', alignItems: 'center', gap: 4,
+        maxWidth: 1240, margin: '0 auto', padding: '0 24px',
+        minHeight: 72, display: 'flex', alignItems: 'center', gap: 12,
+        flexWrap: 'wrap',
       }}>
         {/* Logo */}
         <NavLink to="/" style={{
-          fontSize: 16, fontWeight: 700, color: '#1a1a1a',
-          marginRight: 20, letterSpacing: '-0.3px', textDecoration: 'none',
+          display: 'flex', alignItems: 'center', gap: 10,
+          fontSize: 18, fontWeight: 800, color: 'var(--text-strong)',
+          marginRight: 8, letterSpacing: '-0.5px', textDecoration: 'none',
         }}>
-          The Bridge
+          <span style={{
+            width: 36, height: 36, borderRadius: 12,
+            background: 'linear-gradient(135deg, var(--brand), var(--brand-strong))',
+            color: 'var(--brand-contrast)',
+            display: 'grid', placeItems: 'center',
+            boxShadow: 'var(--shadow)',
+            fontSize: 16,
+          }}>🌉</span>
+          <span><span style={{ color: 'var(--brand)' }}>The</span> Bridge</span>
         </NavLink>
 
         {/* Nav links — only show dashboard links when logged in */}
-        <div style={{ display: 'flex', gap: 2, flex: 1 }}>
+        <div style={{ display: 'flex', gap: 4, flex: 1, alignItems: 'center', flexWrap: 'wrap' }}>
           {user ? (
             <>
               <NavLink to="/dashboard"          style={navLinkStyle}>Home</NavLink>
@@ -59,31 +73,41 @@ export default function Navbar() {
           )}
         </div>
 
+        <button type="button" onClick={toggleTheme} className="theme-toggle" data-active={mode} aria-label="Toggle dark and light mode">
+          <span className="theme-toggle__track">
+            <span className="theme-toggle__thumb" />
+          </span>
+          <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-muted)' }}>
+            {mode === 'dark' ? 'Dark' : 'Light'}
+          </span>
+        </button>
+
         {/* Right side */}
         {user ? (
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <NavLink to="/dashboard/profile" style={{
               display: 'flex', alignItems: 'center', gap: 8,
-              padding: '4px 10px 4px 4px', borderRadius: 20,
-              border: '1px solid #e5e5e5', textDecoration: 'none',
-              color: '#1a1a1a',
+              padding: '5px 12px 5px 5px', borderRadius: 999,
+              border: '1px solid var(--border)', textDecoration: 'none',
+              color: 'var(--text-strong)',
+              background: 'var(--surface)',
             }}>
               <div style={{
-                width: 28, height: 28, borderRadius: '50%',
-                background: '#1a1a1a', color: '#fff',
+                width: 30, height: 30, borderRadius: '50%',
+                background: 'linear-gradient(135deg, var(--brand), var(--brand-strong))', color: 'var(--brand-contrast)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 11, fontWeight: 700,
+                fontSize: 11, fontWeight: 800,
               }}>
                 {initials(user.name)}
               </div>
-              <span style={{ fontSize: 13, fontWeight: 500 }}>
+              <span style={{ fontSize: 13, fontWeight: 600 }}>
                 {user.name.split(' ')[0]}
               </span>
             </NavLink>
             <button onClick={handleLogout} style={{
-              fontSize: 13, padding: '7px 14px', borderRadius: 8,
-              border: '1px solid #e5e5e5', background: '#fff',
-              color: '#888', cursor: 'pointer',
+              fontSize: 13, padding: '10px 16px', borderRadius: 999,
+              border: '1px solid var(--border)', background: 'var(--surface)',
+              color: 'var(--text-muted)', cursor: 'pointer', fontWeight: 600,
             }}>
               Sign out
             </button>
@@ -91,16 +115,18 @@ export default function Navbar() {
         ) : (
           <div style={{ display: 'flex', gap: 8 }}>
             <NavLink to="/login" style={{
-              fontSize: 13, padding: '7px 16px', borderRadius: 8,
-              border: '1px solid #e5e5e5', color: '#555',
-              textDecoration: 'none', fontWeight: 500,
+              fontSize: 13, padding: '10px 16px', borderRadius: 999,
+              border: '1px solid var(--border)', color: 'var(--text-muted)',
+              textDecoration: 'none', fontWeight: 600,
+              background: 'var(--surface)',
             }}>
               Log in
             </NavLink>
             <NavLink to="/signup" style={{
-              fontSize: 13, padding: '7px 16px', borderRadius: 8,
-              background: '#1a1a1a', color: '#fff',
-              textDecoration: 'none', fontWeight: 500,
+              fontSize: 13, padding: '10px 16px', borderRadius: 999,
+              background: 'linear-gradient(135deg, var(--brand), var(--brand-strong))', color: 'var(--brand-contrast)',
+              textDecoration: 'none', fontWeight: 700,
+              boxShadow: 'var(--shadow)',
             }}>
               Join now
             </NavLink>

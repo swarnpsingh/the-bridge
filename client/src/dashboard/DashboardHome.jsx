@@ -6,12 +6,12 @@ export default function DashboardHome() {
 
 	return (
 		<div style={{ display: 'grid', gap: 16 }}>
-			<div style={{ background: '#fff', border: '1px solid #ebebeb', borderRadius: 16, padding: '28px 32px' }}>
-				<div style={{ fontSize: 13, color: '#888', marginBottom: 6 }}>Dashboard</div>
-				<h1 style={{ fontSize: 28, fontWeight: 700, color: '#1a1a1a', marginBottom: 8 }}>
+			<div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 24, padding: '28px 32px', boxShadow: 'var(--shadow)' }}>
+				<div style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 6 }}>Dashboard</div>
+				<h1 style={{ fontSize: 28, fontWeight: 800, color: 'var(--text-strong)', marginBottom: 8 }}>
 					Welcome{user?.name ? `, ${user.name.split(' ')[0]}` : ''}
 				</h1>
-				<p style={{ fontSize: 14, color: '#666', lineHeight: 1.6 }}>
+				<p style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.6 }}>
 					Use the dashboard tabs to manage your profile, browse members, and submit or review events.
 				</p>
 			</div>
@@ -24,8 +24,9 @@ export default function DashboardHome() {
 					{ label: 'View events', to: '/dashboard/events' },
 				].map((item) => (
 					<Link key={item.label} to={item.to} style={{
-						background: '#fff', border: '1px solid #ebebeb', borderRadius: 14,
-						padding: '18px 20px', color: '#1a1a1a', textDecoration: 'none', fontSize: 14, fontWeight: 600,
+						background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 18,
+						padding: '18px 20px', color: 'var(--text-strong)', textDecoration: 'none', fontSize: 14, fontWeight: 700,
+						boxShadow: 'var(--shadow-soft)',
 					}}>
 						{item.label}
 					</Link>

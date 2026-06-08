@@ -29,29 +29,30 @@ export default function DashboardLayout() {
     borderRadius: 8,
     fontSize: 13,
     fontWeight: isActive ? 600 : 400,
-    color: isActive ? '#1a1a1a' : '#666',
-    background: isActive ? '#f0efe9' : 'transparent',
+    color: isActive ? 'var(--text-strong)' : 'var(--text-muted)',
+    background: isActive ? 'var(--brand-soft)' : 'transparent',
     textDecoration: 'none',
     transition: 'all 0.15s',
     marginBottom: 2,
   });
 
   return (
-    <div style={{ display: 'flex', minHeight: 'calc(100vh - 56px)' }}>
+    <div style={{ display: 'flex', minHeight: 'calc(100vh - 72px)', width: '100%' }}>
 
       {/* ── Sidebar ──────────────────────────────────────── */}
       <aside style={{
-        width: 220,
-        background: '#fff',
-        borderRight: '1px solid #ebebeb',
+        width: 260,
+        background: 'var(--surface)',
+        borderRight: '1px solid var(--border)',
         display: 'flex',
         flexDirection: 'column',
-        padding: '20px 12px',
+        padding: '20px 14px',
         position: 'sticky',
-        top: 56,
-        height: 'calc(100vh - 56px)',
+        top: 72,
+        height: 'calc(100vh - 72px)',
         overflowY: 'auto',
         flexShrink: 0,
+        backdropFilter: 'blur(16px)',
       }}>
 
         {/* User card */}
@@ -60,13 +61,13 @@ export default function DashboardLayout() {
           alignItems: 'center',
           gap: 10,
           padding: '10px 10px',
-          borderRadius: 10,
-          background: '#f9f8f6',
+          borderRadius: 14,
+          background: 'var(--surface-muted)',
           marginBottom: 20,
         }}>
           <div style={{
             width: 36, height: 36, borderRadius: '50%',
-            background: '#1a1a1a', color: '#fff',
+            background: 'linear-gradient(135deg, var(--brand), var(--brand-strong))', color: 'var(--brand-contrast)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: 12, fontWeight: 700, flexShrink: 0,
           }}>
@@ -74,12 +75,12 @@ export default function DashboardLayout() {
           </div>
           <div style={{ minWidth: 0 }}>
             <div style={{
-              fontSize: 13, fontWeight: 600, color: '#1a1a1a',
+              fontSize: 13, fontWeight: 700, color: 'var(--text-strong)',
               overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
             }}>
               {user?.name?.split(' ')[0]}
             </div>
-            <div style={{ fontSize: 11, color: '#888' }}>
+            <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>
               {user?.memberType}
             </div>
           </div>
@@ -87,7 +88,7 @@ export default function DashboardLayout() {
 
         {/* Nav label */}
         <div style={{
-          fontSize: 10, fontWeight: 600, color: '#bbb',
+          fontSize: 10, fontWeight: 600, color: 'var(--text-subtle)',
           textTransform: 'uppercase', letterSpacing: '.06em',
           padding: '0 10px', marginBottom: 6,
         }}>
@@ -110,7 +111,7 @@ export default function DashboardLayout() {
         </nav>
 
         {/* Divider */}
-        <div style={{ borderTop: '1px solid #ebebeb', margin: '12px 0' }} />
+        <div style={{ borderTop: '1px solid var(--border)', margin: '12px 0' }} />
 
         {/* Bottom links */}
         <NavLink to="/dashboard/profile" style={linkStyle}>
@@ -121,11 +122,11 @@ export default function DashboardLayout() {
         <button onClick={handleLogout} style={{
           display: 'flex', alignItems: 'center', gap: 10,
           width: '100%', padding: '9px 14px', borderRadius: 8,
-          fontSize: 13, color: '#dc2626', background: 'transparent',
+          fontSize: 13, color: 'var(--danger)', background: 'transparent',
           border: 'none', cursor: 'pointer', marginTop: 2,
           textAlign: 'left', transition: 'background 0.15s',
         }}
-          onMouseEnter={e => e.currentTarget.style.background = '#fff1f1'}
+          onMouseEnter={e => e.currentTarget.style.background = 'var(--danger-soft)'}
           onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
         >
           <span style={{ fontSize: 16 }}>🚪</span>
@@ -137,7 +138,7 @@ export default function DashboardLayout() {
       <main style={{
         flex: 1,
         padding: '32px 32px',
-        background: '#f9f8f6',
+        background: 'transparent',
         overflowY: 'auto',
         minWidth: 0,
       }}>

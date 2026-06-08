@@ -55,9 +55,9 @@ export default function DashboardServices() {
 
   const inputStyle = (k) => ({
     width: '100%', padding: '10px 14px',
-    border: `1px solid ${focused[k] ? '#1a1a1a' : '#e5e5e5'}`,
-    borderRadius: 8, fontSize: 14, color: '#1a1a1a',
-    outline: 'none', background: '#fafafa',
+    border: `1px solid ${focused[k] ? 'var(--brand)' : 'var(--border)'}`,
+    borderRadius: 8, fontSize: 14, color: 'var(--text-strong)',
+    outline: 'none', background: 'var(--surface-muted)',
     transition: 'border-color 0.15s',
   });
 
@@ -95,9 +95,9 @@ export default function DashboardServices() {
   const Chip = ({ label, active, onClick }) => (
     <button onClick={onClick} style={{
       padding: '5px 14px', borderRadius: 20, fontSize: 12, fontWeight: 500,
-      border: active ? '1.5px solid #1a1a1a' : '1px solid #e5e5e5',
-      background: active ? '#1a1a1a' : '#fff',
-      color: active ? '#fff' : '#555',
+      border: active ? '1.5px solid var(--brand)' : '1px solid var(--border)',
+      background: active ? 'var(--brand)' : 'var(--surface)',
+      color: active ? 'var(--brand-contrast)' : 'var(--text-muted)',
       cursor: 'pointer', transition: 'all 0.15s',
     }}>
       {label}
@@ -112,29 +112,29 @@ export default function DashboardServices() {
                     alignItems: 'flex-start', marginBottom: 20,
                     flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <h1 style={{ fontSize: 22, fontWeight: 700, color: '#1a1a1a',
+          <h1 style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-strong)',
                        letterSpacing: '-0.5px', marginBottom: 4 }}>
             Services exchange
           </h1>
-          <p style={{ fontSize: 14, color: '#888' }}>
+          <p style={{ fontSize: 14, color: 'var(--text-muted)' }}>
             Offer your skills or ask the community for help.
           </p>
         </div>
         <button onClick={() => { setShowForm(true); setFormError(''); }} style={{
           padding: '9px 18px', borderRadius: 8, fontSize: 13, fontWeight: 500,
-          background: '#1a1a1a', color: '#fff', border: 'none', cursor: 'pointer',
+          background: 'var(--brand)', color: 'var(--brand-contrast)', border: 'none', cursor: 'pointer',
         }}>
           + Post a service
         </button>
       </div>
 
       {/* Tabs */}
-      <div style={{ display: 'flex', borderBottom: '1px solid #ebebeb', marginBottom: 16 }}>
+      <div style={{ display: 'flex', borderBottom: '1px solid var(--border)', marginBottom: 16 }}>
         {['Offered', 'Requested'].map(t => (
           <button key={t} onClick={() => setTab(t)} style={{
             padding: '10px 20px', fontSize: 13, fontWeight: tab === t ? 600 : 400,
-            color: tab === t ? '#1a1a1a' : '#888',
-            borderBottom: tab === t ? '2px solid #1a1a1a' : '2px solid transparent',
+            color: tab === t ? 'var(--text-strong)' : 'var(--text-muted)',
+            borderBottom: tab === t ? '2px solid var(--brand)' : '2px solid transparent',
             background: 'none', border: 'none',
             borderBottomStyle: 'solid',
             cursor: 'pointer', transition: 'all 0.15s',
@@ -157,22 +157,22 @@ export default function DashboardServices() {
       {/* Grid */}
       {loading ? (
         <div style={{ textAlign: 'center', padding: '60px 0',
-                      color: '#aaa', fontSize: 14 }}>
+                      color: 'var(--text-subtle)', fontSize: 14 }}>
           Loading services...
         </div>
       ) : services.length === 0 ? (
         <div style={{
-          background: '#fff', border: '1px solid #ebebeb',
+          background: 'var(--surface)', border: '1px solid var(--border)',
           borderRadius: 14, padding: '60px 24px', textAlign: 'center',
         }}>
           <div style={{ fontSize: 36, marginBottom: 12 }}>
             {tab === 'Offered' ? '🙋' : '🙏'}
           </div>
           <p style={{ fontSize: 15, fontWeight: 600,
-                      color: '#1a1a1a', marginBottom: 6 }}>
+                      color: 'var(--text-strong)', marginBottom: 6 }}>
             No {tab.toLowerCase()} services yet
           </p>
-          <p style={{ fontSize: 13, color: '#aaa', marginBottom: 20 }}>
+          <p style={{ fontSize: 13, color: 'var(--text-subtle)', marginBottom: 20 }}>
             {tab === 'Offered'
               ? 'Be the first to offer a skill to the community.'
               : 'Be the first to ask the community for help.'}
@@ -182,7 +182,7 @@ export default function DashboardServices() {
             setShowForm(true);
           }} style={{
             padding: '10px 22px', borderRadius: 8,
-            background: '#1a1a1a', color: '#fff',
+            background: 'var(--brand)', color: 'var(--brand-contrast)',
             fontSize: 13, fontWeight: 500, border: 'none', cursor: 'pointer',
           }}>
             Post a service
@@ -202,8 +202,8 @@ export default function DashboardServices() {
 
             return (
               <div key={s._id} style={{
-                background: '#fff',
-                border: `1px solid ${isMe ? '#c7d2fe' : '#ebebeb'}`,
+                background: 'var(--surface)',
+                border: `1px solid ${isMe ? 'var(--brand)' : 'var(--border)'}`,
                 borderRadius: 14, padding: 20,
                 position: 'relative',
                 transition: 'transform 0.15s, border-color 0.15s',
@@ -211,11 +211,11 @@ export default function DashboardServices() {
               }}
                 onMouseEnter={e => {
                   e.currentTarget.style.transform = 'translateY(-2px)';
-                  if (!isMe) e.currentTarget.style.borderColor = '#d0d0d0';
+                  if (!isMe) e.currentTarget.style.borderColor = 'var(--border-strong)';
                 }}
                 onMouseLeave={e => {
                   e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.borderColor = isMe ? '#c7d2fe' : '#ebebeb';
+                  e.currentTarget.style.borderColor = isMe ? 'var(--brand)' : 'var(--border)';
                 }}
               >
                 {/* "Mine" badge */}
@@ -223,7 +223,7 @@ export default function DashboardServices() {
                   <div style={{
                     position: 'absolute', top: 14, right: 14,
                     fontSize: 10, padding: '2px 8px', borderRadius: 20,
-                    background: '#e0e7ff', color: '#4338ca', fontWeight: 600,
+                    background: 'var(--brand-soft)', color: 'var(--brand-soft-text)', fontWeight: 600,
                   }}>
                     Mine
                   </div>
@@ -240,7 +240,7 @@ export default function DashboardServices() {
                 </div>
 
                 {/* Title */}
-                <h3 style={{ fontSize: 14, fontWeight: 700, color: '#1a1a1a',
+                <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-strong)',
                              marginBottom: 6, lineHeight: 1.3 }}>
                   {s.title}
                 </h3>
@@ -248,7 +248,7 @@ export default function DashboardServices() {
                 {/* Description */}
                 {s.description && (
                   <p style={{
-                    fontSize: 12, color: '#777', lineHeight: 1.55,
+                    fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.55,
                     marginBottom: 14, flex: 1,
                     display: '-webkit-box',
                     WebkitLineClamp: 3,
@@ -272,29 +272,30 @@ export default function DashboardServices() {
                     }}>
                       {initials(poster.name)}
                     </div>
-                    <div style={{ fontSize: 12, color: '#888' }}>
+                    <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>
                       {poster.name}
                       {poster.memberType && (
-                        <span style={{ color: '#bbb' }}> · {poster.memberType}</span>
+                        <span style={{ color: 'var(--text-subtle)' }}> · {poster.memberType}</span>
                       )}
                     </div>
                   </div>
                 )}
 
                 {/* Actions */}
-                <div style={{ borderTop: '1px solid #f5f5f5', paddingTop: 14 }}>
+                <div style={{ borderTop: '1px solid var(--border)', paddingTop: 14 }}>
                   {isMe ? (
                     <button onClick={() => setDeleteConfirm(s)} style={{
                       width: '100%', padding: '8px', borderRadius: 8, fontSize: 12,
-                      border: '1px solid #fecaca', color: '#dc2626',
-                      background: '#fff1f1', cursor: 'pointer', fontWeight: 500,
+                      border: '1px solid color-mix(in srgb, var(--danger) 30%, transparent)',
+                      color: 'var(--danger)',
+                      background: 'var(--danger-soft)', cursor: 'pointer', fontWeight: 500,
                     }}>
                       Remove listing
                     </button>
                   ) : (
                     <button onClick={() => setContactModal(s)} style={{
                       width: '100%', padding: '8px', borderRadius: 8, fontSize: 12,
-                      background: '#1a1a1a', color: '#fff',
+                      background: 'var(--brand)', color: 'var(--brand-contrast)',
                       border: 'none', cursor: 'pointer', fontWeight: 500,
                     }}>
                       {tab === 'Offered' ? 'Express interest →' : 'Offer to help →'}
@@ -310,26 +311,27 @@ export default function DashboardServices() {
       {/* ── Post a service modal ──────────────────────────── */}
       {showForm && (
         <div style={{
-          position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)',
+          position: 'fixed', inset: 0, background: 'var(--overlay)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           zIndex: 200, padding: 24,
         }}
           onClick={e => { if (e.target === e.currentTarget) setShowForm(false); }}
         >
           <div style={{
-            background: '#fff', borderRadius: 16, padding: 32,
+            background: 'var(--surface-solid)', borderRadius: 16, padding: 32,
             width: '100%', maxWidth: 480,
-            boxShadow: '0 20px 60px rgba(0,0,0,0.15)',
+            boxShadow: 'var(--shadow-strong)',
+            border: '1px solid var(--border)',
             maxHeight: '90vh', overflowY: 'auto',
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between',
                           alignItems: 'center', marginBottom: 20 }}>
-              <h2 style={{ fontSize: 17, fontWeight: 700, color: '#1a1a1a' }}>
+              <h2 style={{ fontSize: 17, fontWeight: 700, color: 'var(--text-strong)' }}>
                 Post a service
               </h2>
               <button onClick={() => setShowForm(false)} style={{
                 background: 'none', border: 'none', fontSize: 20,
-                cursor: 'pointer', color: '#aaa',
+                cursor: 'pointer', color: 'var(--text-subtle)',
               }}>×</button>
             </div>
 
@@ -339,7 +341,7 @@ export default function DashboardServices() {
               {/* Type toggle */}
               <div>
                 <label style={{ display: 'block', fontSize: 12, fontWeight: 500,
-                                color: '#555', marginBottom: 8 }}>
+                                color: 'var(--text-muted)', marginBottom: 8 }}>
                   I want to...
                 </label>
                 <div style={{ display: 'flex', gap: 10 }}>
@@ -348,9 +350,9 @@ export default function DashboardServices() {
                       onClick={() => field('type', t)} style={{
                         flex: 1, padding: '10px', borderRadius: 8, fontSize: 13,
                         border: form.type === t
-                          ? '2px solid #1a1a1a' : '1px solid #e5e5e5',
-                        background: form.type === t ? '#1a1a1a' : '#fff',
-                        color: form.type === t ? '#fff' : '#555',
+                          ? '2px solid var(--brand)' : '1px solid var(--border)',
+                        background: form.type === t ? 'var(--brand)' : 'var(--surface-muted)',
+                        color: form.type === t ? 'var(--brand-contrast)' : 'var(--text-muted)',
                         cursor: 'pointer', fontWeight: 500,
                         transition: 'all 0.15s',
                       }}>
@@ -363,7 +365,7 @@ export default function DashboardServices() {
               {/* Category */}
               <div>
                 <label style={{ display: 'block', fontSize: 12, fontWeight: 500,
-                                color: '#555', marginBottom: 8 }}>
+                                color: 'var(--text-muted)', marginBottom: 8 }}>
                   Category
                 </label>
                 <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
@@ -372,9 +374,9 @@ export default function DashboardServices() {
                       onClick={() => field('category', c)} style={{
                         padding: '5px 12px', borderRadius: 20, fontSize: 12,
                         border: form.category === c
-                          ? '1.5px solid #1a1a1a' : '1px solid #e5e5e5',
-                        background: form.category === c ? '#1a1a1a' : '#fff',
-                        color: form.category === c ? '#fff' : '#555',
+                          ? '1.5px solid var(--brand)' : '1px solid var(--border)',
+                        background: form.category === c ? 'var(--brand)' : 'var(--surface-muted)',
+                        color: form.category === c ? 'var(--brand-contrast)' : 'var(--text-muted)',
                         cursor: 'pointer', fontWeight: 500,
                       }}>
                       {c}
@@ -386,8 +388,8 @@ export default function DashboardServices() {
               {/* Title */}
               <div>
                 <label style={{ display: 'block', fontSize: 12, fontWeight: 500,
-                                color: '#555', marginBottom: 6 }}>
-                  Title <span style={{ color: '#e55' }}>*</span>
+                                color: 'var(--text-muted)', marginBottom: 6 }}>
+                  Title <span style={{ color: 'var(--danger)' }}>*</span>
                 </label>
                 <input style={inputStyle('title')}
                   placeholder={form.type === 'Offered'
@@ -402,7 +404,7 @@ export default function DashboardServices() {
               {/* Description */}
               <div>
                 <label style={{ display: 'block', fontSize: 12, fontWeight: 500,
-                                color: '#555', marginBottom: 6 }}>
+                                color: 'var(--text-muted)', marginBottom: 6 }}>
                   Description
                 </label>
                 <textarea style={{ ...inputStyle('desc'), height: 90, resize: 'vertical' }}
@@ -418,8 +420,9 @@ export default function DashboardServices() {
               {formError && (
                 <div style={{
                   padding: '10px 14px', borderRadius: 8,
-                  background: '#fff1f1', border: '1px solid #fecaca',
-                  fontSize: 13, color: '#dc2626',
+                  background: 'var(--danger-soft)',
+                  border: '1px solid color-mix(in srgb, var(--danger) 24%, transparent)',
+                  fontSize: 13, color: 'var(--danger)',
                 }}>
                   {formError}
                 </div>
@@ -428,14 +431,15 @@ export default function DashboardServices() {
               <div style={{ display: 'flex', gap: 10 }}>
                 <button type="button" onClick={() => setShowForm(false)} style={{
                   padding: '11px 18px', borderRadius: 8, fontSize: 13,
-                  border: '1px solid #e5e5e5', background: '#fff',
-                  color: '#555', cursor: 'pointer', fontWeight: 500,
+                  border: '1px solid var(--border)', background: 'var(--surface)',
+                  color: 'var(--text-muted)', cursor: 'pointer', fontWeight: 500,
                 }}>
                   Cancel
                 </button>
                 <button type="submit" disabled={submitting} style={{
                   flex: 1, padding: '11px', borderRadius: 8, fontSize: 13,
-                  background: submitting ? '#999' : '#1a1a1a', color: '#fff',
+                  background: submitting ? 'var(--text-subtle)' : 'var(--brand)',
+                  color: 'var(--brand-contrast)',
                   border: 'none', fontWeight: 600,
                   cursor: submitting ? 'not-allowed' : 'pointer',
                 }}>
@@ -450,39 +454,40 @@ export default function DashboardServices() {
       {/* ── Contact modal ─────────────────────────────────── */}
       {contactModal && (
         <div style={{
-          position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)',
+          position: 'fixed', inset: 0, background: 'var(--overlay)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           zIndex: 200, padding: 24,
         }}
           onClick={e => { if (e.target === e.currentTarget) setContactModal(null); }}
         >
           <div style={{
-            background: '#fff', borderRadius: 16, padding: 32,
+            background: 'var(--surface-solid)', borderRadius: 16, padding: 32,
             width: '100%', maxWidth: 400,
-            boxShadow: '0 20px 60px rgba(0,0,0,0.15)',
+            boxShadow: 'var(--shadow-strong)',
+            border: '1px solid var(--border)',
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between',
                           alignItems: 'flex-start', marginBottom: 16 }}>
-              <h2 style={{ fontSize: 17, fontWeight: 700, color: '#1a1a1a' }}>
+              <h2 style={{ fontSize: 17, fontWeight: 700, color: 'var(--text-strong)' }}>
                 Get in touch
               </h2>
               <button onClick={() => setContactModal(null)} style={{
                 background: 'none', border: 'none', fontSize: 20,
-                cursor: 'pointer', color: '#aaa',
+                cursor: 'pointer', color: 'var(--text-subtle)',
               }}>×</button>
             </div>
 
-            <p style={{ fontSize: 13, color: '#888', marginBottom: 6 }}>
+            <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 6 }}>
               Interested in:
             </p>
-            <p style={{ fontSize: 14, fontWeight: 600, color: '#1a1a1a',
+            <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-strong)',
                         marginBottom: 20 }}>
               {contactModal.title}
             </p>
 
             {contactModal.postedBy?.email ? (
               <>
-                <p style={{ fontSize: 13, color: '#666', marginBottom: 20,
+                <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 20,
                             lineHeight: 1.6 }}>
                   Reach out directly to{' '}
                   <strong>{contactModal.postedBy?.name}</strong> via email:
@@ -491,7 +496,7 @@ export default function DashboardServices() {
                   style={{
                     display: 'block', textAlign: 'center',
                     padding: '12px', borderRadius: 8, fontSize: 13,
-                    background: '#1a1a1a', color: '#fff',
+                    background: 'var(--brand)', color: 'var(--brand-contrast)',
                     fontWeight: 600, textDecoration: 'none',
                   }}>
                   Send email →
@@ -504,7 +509,7 @@ export default function DashboardServices() {
                     style={{
                       display: 'block', textAlign: 'center', marginTop: 10,
                       padding: '12px', borderRadius: 8, fontSize: 13,
-                      border: '1px solid #e5e5e5', color: '#555',
+                      border: '1px solid var(--border)', color: 'var(--text-muted)',
                       fontWeight: 500, textDecoration: 'none',
                     }}>
                     View LinkedIn
@@ -512,7 +517,7 @@ export default function DashboardServices() {
                 )}
               </>
             ) : (
-              <p style={{ fontSize: 13, color: '#aaa' }}>
+              <p style={{ fontSize: 13, color: 'var(--text-subtle)' }}>
                 Contact details not available.
               </p>
             )}
@@ -523,34 +528,35 @@ export default function DashboardServices() {
       {/* ── Delete confirm modal ──────────────────────────── */}
       {deleteConfirm && (
         <div style={{
-          position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)',
+          position: 'fixed', inset: 0, background: 'var(--overlay)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           zIndex: 200, padding: 24,
         }}>
           <div style={{
-            background: '#fff', borderRadius: 16, padding: 32,
+            background: 'var(--surface-solid)', borderRadius: 16, padding: 32,
             width: '100%', maxWidth: 380,
-            boxShadow: '0 20px 60px rgba(0,0,0,0.15)',
+            boxShadow: 'var(--shadow-strong)',
+            border: '1px solid var(--border)',
           }}>
-            <h2 style={{ fontSize: 17, fontWeight: 700, color: '#1a1a1a',
+            <h2 style={{ fontSize: 17, fontWeight: 700, color: 'var(--text-strong)',
                          marginBottom: 8 }}>
               Remove listing?
             </h2>
-            <p style={{ fontSize: 13, color: '#888', marginBottom: 24 }}>
+            <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 24 }}>
               This will permanently remove <strong>{deleteConfirm.title}</strong> from
               the services exchange.
             </p>
             <div style={{ display: 'flex', gap: 10 }}>
               <button onClick={() => setDeleteConfirm(null)} style={{
                 flex: 1, padding: '11px', borderRadius: 8, fontSize: 13,
-                border: '1px solid #e5e5e5', background: '#fff',
-                color: '#555', cursor: 'pointer', fontWeight: 500,
+                border: '1px solid var(--border)', background: 'var(--surface)',
+                color: 'var(--text-muted)', cursor: 'pointer', fontWeight: 500,
               }}>
                 Cancel
               </button>
               <button onClick={() => handleDelete(deleteConfirm._id)} style={{
                 flex: 1, padding: '11px', borderRadius: 8, fontSize: 13,
-                background: '#dc2626', color: '#fff',
+                background: 'var(--danger)', color: '#fff',
                 border: 'none', cursor: 'pointer', fontWeight: 600,
               }}>
                 Remove
