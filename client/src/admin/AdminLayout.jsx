@@ -1,0 +1,124 @@
+import { useEffect } from 'react';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+
+const navItems = [
+  { to: '/admin/dashboard', label: 'Overview',  icon: '⊞', end: true },
+  { to: '/admin/members',   label: 'Members',   icon: '👥' },
+  { to: '/admin/events',    label: 'Events',    icon: '📅' },
+  { to: '/admin/services',  label: 'Services',  icon: '⇄'  },
+];
+
+export default function AdminLayout() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!localStorage.getItem('adminToken')) navigate('/admin/login', { replace: true });
+  }, [navigate]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('adminToken');
+    navigate('/admin/login');
+  };
+
+  const linkStyle = ({ isActive }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    gap: 10,
+    padding: '9px 14px',
+    borderRadius: 8,
+    fontSize: 13,
+    fontWeight: isActive ? 600 : 400,
+    color: isActive ? 'var(--text-strong)' : 'var(--text-muted)',
+    background: isActive ? 'var(--brand-soft)' : 'transparent',
+    textDecoration: 'none',
+    transition: 'all 0.15s',
+    marginBottom: 2,
+  });
+
+  return (
+    <div style={{ display: 'flex', minHeight: 'calc(100vh - 72px)', width: '100%' }}>
+
+      {/* Sidebar */}
+      <aside style={{
+        width: 260,
+        background: 'var(--surface)',
+        borderRight: '1px solid var(--border)',
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '20px 14px',
+        position: 'sticky',
+        top: 72,
+        height: 'calc(100vh - 72px)',
+        overflowY: 'auto',
+        flexShrink: 0,
+        backdropFilter: 'blur(16px)',
+      }}>
+
+        {/* Admin badge */}
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: 10,
+          padding: '10px 10px', borderRadius: 14,
+          background: 'var(--surface-muted)', marginBottom: 20,
+        }}>
+          <div style={{
+            width: 36, height: 36, borderRadius: '50%',
+            background: 'linear-gradient(135deg, #7c3aed, #4f46e5)',
+            color: '#fff', display: 'flex', alignItems: 'center',
+            justifyContent: 'center', fontSize: 14, fontWeight: 700, flexShrink: 0,
+          }}>
+            A
+          </div>
+          <div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-strong)' }}>Admin</div>
+            <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>The Bridge</div>
+          </div>
+        </div>
+
+        {/* Nav label */}
+        <div style={{
+          fontSize: 10, fontWeight: 600, color: 'var(--text-subtle)',
+          textTransform: 'uppercase', letterSpacing: '.06em',
+          padding: '0 10px', marginBottom: 6,
+        }}>
+          Admin Panel
+        </div>
+
+        {/* Nav links */}
+        <nav style={{ flex: 1 }}>
+          {navItems.map(item => (
+            <NavLink key={item.to} to={item.to} end={item.end} style={linkStyle}>
+              <span style={{ fontSize: 16 }}>{item.icon}</span>
+              {item.label}
+            </NavLink>
+          ))}
+        </nav>
+
+        <div style={{ borderTop: '1px solid var(--border)', margin: '12px 0' }} />
+
+        <button
+          onClick={handleLogout}
+          style={{
+            display: 'flex', alignItems: 'center', gap: 10,
+            width: '100%', padding: '9px 14px', borderRadius: 8,
+            fontSize: 13, color: 'var(--danger)', background: 'transparent',
+            border: 'none', cursor: 'pointer', textAlign: 'left',
+            transition: 'background 0.15s',
+          }}
+          onMouseEnter={e => e.currentTarget.style.background = 'var(--danger-soft)'}
+          onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+        >
+          <span style={{ fontSize: 16 }}>🚪</span>
+          Sign out
+        </button>
+      </aside>
+
+      {/* Main content */}
+      <main style={{
+        flex: 1, padding: '32px 32px',
+        background: 'transparent', overflowY: 'auto', minWidth: 0,
+      }}>
+        <Outlet />
+      </main>
+    </div>
+  );
+}

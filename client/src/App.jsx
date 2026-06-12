@@ -16,10 +16,22 @@ import DashboardServices from "./dashboard/DashboardServices";
 import DashboardSubmit from "./dashboard/DashboardSubmit";
 import DashboardProfile from "./dashboard/DashboardProfile";
 
+import AdminLogin from "./admin/AdminLogin";
+import AdminLayout from "./admin/AdminLayout";
+import AdminDashboard from "./admin/Dashboard";
+import AdminMembers from "./admin/AdminMembers";
+import AdminEvents from "./admin/AdminEvents";
+import AdminServices from "./admin/AdminServices";
+
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
   if (loading) return null;
   return user ? children : <Navigate to="/login" replace />;
+}
+
+function AdminProtectedRoute({ children }) {
+  const token = localStorage.getItem('adminToken');
+  return token ? children : <Navigate to="/admin/login" replace />;
 }
 
 export default function App() {
@@ -54,7 +66,21 @@ export default function App() {
             </Route>
 
             {/* Admin */}
-            <Route path="/admin/login" element={<div style={{ padding: 24, color: 'var(--text-muted)' }}>Admin Login</div>} />
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route
+              path="/admin"
+              element={
+                <AdminProtectedRoute>
+                  <AdminLayout />
+                </AdminProtectedRoute>
+              }
+            >
+              <Route index element={<Navigate to="/admin/dashboard" replace />} />
+              <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="members" element={<AdminMembers />} />
+              <Route path="events" element={<AdminEvents />} />
+              <Route path="services" element={<AdminServices />} />
+            </Route>
           </Routes>
         </main>
       </div>
