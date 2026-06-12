@@ -5,7 +5,13 @@ const auth       = require('./middleware/authMiddleware');
 require('dotenv').config();
 
 const app = express();
-app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(cors({
+  origin: [
+    'http://localhost:3000',
+    'https://thebridge.bridgemakersmn.org',
+  ],
+  credentials: true,
+}));
 app.use(express.json()); 
 
 // Public
