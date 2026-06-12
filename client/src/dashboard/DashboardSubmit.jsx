@@ -2,11 +2,13 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { submitEvent } from '../api';
+import { useBreakpoint } from '../hooks/useBreakpoint';
 
 const GOOGLE_FORM_URL = 'https://forms.gle/your-google-form-link-here';
 
 export default function DashboardSubmit() {
   const { user } = useAuth();
+  const { isMobile, isTablet, isDesktop } = useBreakpoint();
 
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading]     = useState(false);
@@ -166,8 +168,11 @@ export default function DashboardSubmit() {
           </div>
 
           {/* Date + Time */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr',
-                        gap: 14, marginBottom: 16 }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
+            gap: 14, marginBottom: 16,
+          }}>
             <div>
               <label style={labelStyle}>
                 Date <span style={{ color: 'var(--danger)' }}>*</span>
@@ -261,7 +266,7 @@ export default function DashboardSubmit() {
                        borderBottom: '1px solid var(--border)' }}>
             Your details
           </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 14 }}>
             <div>
               <label style={labelStyle}>
                 Your name <span style={{ color: 'var(--danger)' }}>*</span>

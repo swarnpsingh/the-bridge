@@ -4,6 +4,7 @@ import {
   adminGetMembers, adminGetEvents, adminGetServices,
   adminApproveEvent, adminDeleteEvent,
 } from '../api';
+import { useBreakpoint } from '../hooks/useBreakpoint';
 
 const fmtDate = (s) =>
   s ? new Date(s).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : '—';
@@ -41,6 +42,7 @@ const Td = ({ children, style }) => (
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
+  const { isMobile, isTablet, isDesktop } = useBreakpoint();
   const [members, setMembers] = useState([]);
   const [events, setEvents] = useState([]);
   const [services, setServices] = useState([]);
@@ -110,7 +112,7 @@ export default function AdminDashboard() {
       {/* Stat cards */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+        gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(auto-fit, minmax(180px, 1fr))',
         gap: 12, marginBottom: 36,
       }}>
         <StatCard label="Total members" value={members.length} />
@@ -134,7 +136,7 @@ export default function AdminDashboard() {
             No pending events — you&apos;re all caught up.
           </div>
         ) : (
-          <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 14, overflow: 'hidden' }}>
+          <div className="table-scroll" style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 14, overflow: 'hidden' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
                 <tr style={{ borderBottom: '1px solid var(--border)', background: 'var(--surface-muted)' }}>
@@ -215,7 +217,7 @@ export default function AdminDashboard() {
         <h2 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-strong)', marginBottom: 14 }}>
           Recent members
         </h2>
-        <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 14, overflow: 'hidden' }}>
+        <div className="table-scroll" style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 14, overflow: 'hidden' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr style={{ borderBottom: '1px solid var(--border)', background: 'var(--surface-muted)' }}>

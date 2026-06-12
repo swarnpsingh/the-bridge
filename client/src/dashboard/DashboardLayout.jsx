@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useBreakpoint } from '../hooks/useBreakpoint';
 
 const initials = (name) =>
   name ? name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) : '?';
@@ -15,6 +17,8 @@ const navItems = [
 export default function DashboardLayout() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const { isMobile, isTablet, isDesktop } = useBreakpoint();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -36,8 +40,18 @@ export default function DashboardLayout() {
     marginBottom: 2,
   });
 
+  const isBelowDesktop = isMobile || isTablet;
+
   return (
     <div style={{ display: 'flex', minHeight: 'calc(100vh - 72px)', width: '100%' }}>
+
+      {/* Backdrop for mobile/tablet */}
+      {isBelowDesktop && (
+        <div
+          className={`sidebar-backdrop${sidebarOpen ? ' open' : ''}`}
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
 
       {/* ── Sidebar ──────────────────────────────────────── */}
       <aside style={{
@@ -47,11 +61,21 @@ export default function DashboardLayout() {
         display: 'flex',
         flexDirection: 'column',
         padding: '20px 14px',
-        position: 'sticky',
-        top: 72,
-        height: 'calc(100vh - 72px)',
+        ...(isDesktop ? {
+          position: 'sticky',
+          top: 72,
+          height: 'calc(100vh - 72px)',
+          flexShrink: 0,
+        } : {
+          position: 'fixed',
+          top: 72,
+          left: sidebarOpen ? 0 : -280,
+          height: 'calc(100vh - 72px)',
+          zIndex: 200,
+          transition: 'left 0.25s ease',
+          flexShrink: 0,
+        }),
         overflowY: 'auto',
-        flexShrink: 0,
         backdropFilter: 'blur(16px)',
       }}>
 
@@ -103,6 +127,7 @@ export default function DashboardLayout() {
               to={item.to}
               end={item.end}
               style={linkStyle}
+              onClick={() => isBelowDesktop && setSidebarOpen(false)}
             >
               <span style={{ fontSize: 16 }}>{item.icon}</span>
               {item.label}
@@ -114,7 +139,11 @@ export default function DashboardLayout() {
         <div style={{ borderTop: '1px solid var(--border)', margin: '12px 0' }} />
 
         {/* Bottom links */}
-        <NavLink to="/dashboard/profile" style={linkStyle}>
+        <NavLink
+          to="/dashboard/profile"
+          style={linkStyle}
+          onClick={() => isBelowDesktop && setSidebarOpen(false)}
+        >
           <span style={{ fontSize: 16 }}>👤</span>
           My profile
         </NavLink>
@@ -137,11 +166,28 @@ export default function DashboardLayout() {
       {/* ── Main content ─────────────────────────────────── */}
       <main style={{
         flex: 1,
-        padding: '32px 32px',
+        padding: isMobile ? '20px 16px' : '32px 32px',
         background: 'transparent',
         overflowY: 'auto',
         minWidth: 0,
       }}>
+        {/* Hamburger button — mobile/tablet only */}
+        {isBelowDesktop && (
+          <button
+            type="button"
+            onClick={() => setSidebarOpen(v => !v)}
+            aria-label="Open sidebar"
+            style={{
+              display: 'flex', alignItems: 'center', gap: 8,
+              marginBottom: 16, padding: '8px 14px', borderRadius: 8,
+              border: '1px solid var(--border)', background: 'var(--surface)',
+              color: 'var(--text-muted)', cursor: 'pointer', fontSize: 13, fontWeight: 500,
+            }}
+          >
+            <span style={{ fontSize: 16 }}>☰</span>
+            Menu
+          </button>
+        )}
         <Outlet />
       </main>
     </div>

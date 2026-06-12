@@ -1,6 +1,8 @@
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
+import { useBreakpoint } from '../hooks/useBreakpoint';
 
 const initials = (name) =>
   name ? name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) : '?';
@@ -9,6 +11,14 @@ export default function Navbar() {
   const { user, logout } = useAuth();
   const { mode, toggleTheme } = useTheme();
   const navigate = useNavigate();
+  const location = useLocation();
+  const { isMobile } = useBreakpoint();
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  // Close dropdown on navigation
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname]);
 
   const handleLogout = () => {
     logout();
@@ -26,6 +36,18 @@ export default function Navbar() {
     textDecoration: 'none',
   });
 
+  const mobileNavLinkStyle = ({ isActive }) => ({
+    display: 'block',
+    fontSize: 15,
+    padding: '12px 16px',
+    borderRadius: 8,
+    color: isActive ? 'var(--text-strong)' : 'var(--text-muted)',
+    background: isActive ? 'var(--brand-soft)' : 'transparent',
+    fontWeight: isActive ? 600 : 400,
+    transition: 'all 0.15s',
+    textDecoration: 'none',
+  });
+
   return (
     <nav style={{
       background: 'color-mix(in srgb, var(--surface) 86%, transparent)',
@@ -37,7 +59,6 @@ export default function Navbar() {
       <div style={{
         maxWidth: 1240, margin: '0 auto', padding: '0 24px',
         minHeight: 72, display: 'flex', alignItems: 'center', gap: 12,
-        flexWrap: 'wrap',
       }}>
         {/* Logo */}
         <NavLink to="/" style={{
@@ -56,83 +77,220 @@ export default function Navbar() {
           <span><span style={{ color: 'var(--brand)' }}>The</span> Bridge</span>
         </NavLink>
 
-        {/* Nav links — only show dashboard links when logged in */}
-        <div style={{ display: 'flex', gap: 4, flex: 1, alignItems: 'center', flexWrap: 'wrap' }}>
-          {user ? (
-            <>
-              <NavLink to="/dashboard"          style={navLinkStyle}>Home</NavLink>
-              <NavLink to="/dashboard/members"  style={navLinkStyle}>Members</NavLink>
-              <NavLink to="/dashboard/events"   style={navLinkStyle}>Events</NavLink>
-              <NavLink to="/dashboard/services" style={navLinkStyle}>Services</NavLink>
-              <NavLink to="/dashboard/submit"   style={navLinkStyle}>Submit event</NavLink>
-            </>
-          ) : (
-            <>
-              <NavLink to="/" end style={navLinkStyle}>Home</NavLink>
-            </>
-          )}
-        </div>
-
-        <button type="button" onClick={toggleTheme} className="theme-toggle" data-active={mode} aria-label="Toggle dark and light mode">
-          <span className="theme-toggle__track">
-            <span className="theme-toggle__thumb" />
-          </span>
-          <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-muted)' }}>
-            {mode === 'dark' ? 'Dark' : 'Light'}
-          </span>
-        </button>
-
-        {/* Right side */}
-        {user ? (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <NavLink to="/dashboard/profile" style={{
-              display: 'flex', alignItems: 'center', gap: 8,
-              padding: '5px 12px 5px 5px', borderRadius: 999,
-              border: '1px solid var(--border)', textDecoration: 'none',
-              color: 'var(--text-strong)',
-              background: 'var(--surface)',
-            }}>
-              <div style={{
-                width: 30, height: 30, borderRadius: '50%',
-                background: 'linear-gradient(135deg, var(--brand), var(--brand-strong))', color: 'var(--brand-contrast)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 11, fontWeight: 800,
-              }}>
-                {initials(user.name)}
-              </div>
-              <span style={{ fontSize: 13, fontWeight: 600 }}>
-                {user.name.split(' ')[0]}
-              </span>
-            </NavLink>
-            <button onClick={handleLogout} style={{
-              fontSize: 13, padding: '10px 16px', borderRadius: 999,
-              border: '1px solid var(--border)', background: 'var(--surface)',
-              color: 'var(--text-muted)', cursor: 'pointer', fontWeight: 600,
-            }}>
-              Sign out
-            </button>
-          </div>
-        ) : (
-          <div style={{ display: 'flex', gap: 8 }}>
-            <NavLink to="/login" style={{
-              fontSize: 13, padding: '10px 16px', borderRadius: 999,
-              border: '1px solid var(--border)', color: 'var(--text-muted)',
-              textDecoration: 'none', fontWeight: 600,
-              background: 'var(--surface)',
-            }}>
-              Log in
-            </NavLink>
-            <NavLink to="/signup" style={{
-              fontSize: 13, padding: '10px 16px', borderRadius: 999,
-              background: 'linear-gradient(135deg, var(--brand), var(--brand-strong))', color: 'var(--brand-contrast)',
-              textDecoration: 'none', fontWeight: 700,
-              boxShadow: 'var(--shadow)',
-            }}>
-              Join now
-            </NavLink>
+        {/* Desktop: Nav links */}
+        {!isMobile && (
+          <div style={{ display: 'flex', gap: 4, flex: 1, alignItems: 'center', flexWrap: 'wrap' }}>
+            {user ? (
+              <>
+                <NavLink to="/dashboard"          style={navLinkStyle}>Home</NavLink>
+                <NavLink to="/dashboard/members"  style={navLinkStyle}>Members</NavLink>
+                <NavLink to="/dashboard/events"   style={navLinkStyle}>Events</NavLink>
+                <NavLink to="/dashboard/services" style={navLinkStyle}>Services</NavLink>
+                <NavLink to="/dashboard/submit"   style={navLinkStyle}>Submit event</NavLink>
+              </>
+            ) : (
+              <>
+                <NavLink to="/" end style={navLinkStyle}>Home</NavLink>
+              </>
+            )}
           </div>
         )}
+
+        {/* Spacer on mobile */}
+        {isMobile && <div style={{ flex: 1 }} />}
+
+        {/* Desktop: Theme toggle */}
+        {!isMobile && (
+          <button type="button" onClick={toggleTheme} className="theme-toggle" data-active={mode} aria-label="Toggle dark and light mode">
+            <span className="theme-toggle__track">
+              <span className="theme-toggle__thumb" />
+            </span>
+            <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-muted)' }}>
+              {mode === 'dark' ? 'Dark' : 'Light'}
+            </span>
+          </button>
+        )}
+
+        {/* Mobile: Theme toggle (icon only) */}
+        {isMobile && (
+          <button type="button" onClick={toggleTheme} className="theme-toggle" data-active={mode} aria-label="Toggle dark and light mode" style={{ padding: '8px 10px' }}>
+            <span className="theme-toggle__track">
+              <span className="theme-toggle__thumb" />
+            </span>
+          </button>
+        )}
+
+        {/* Desktop: Right side auth controls */}
+        {!isMobile && (
+          user ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <NavLink to="/dashboard/profile" style={{
+                display: 'flex', alignItems: 'center', gap: 8,
+                padding: '5px 12px 5px 5px', borderRadius: 999,
+                border: '1px solid var(--border)', textDecoration: 'none',
+                color: 'var(--text-strong)',
+                background: 'var(--surface)',
+              }}>
+                <div style={{
+                  width: 30, height: 30, borderRadius: '50%',
+                  background: 'linear-gradient(135deg, var(--brand), var(--brand-strong))', color: 'var(--brand-contrast)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: 11, fontWeight: 800,
+                }}>
+                  {initials(user.name)}
+                </div>
+                <span style={{ fontSize: 13, fontWeight: 600 }}>
+                  {user.name.split(' ')[0]}
+                </span>
+              </NavLink>
+              <button onClick={handleLogout} style={{
+                fontSize: 13, padding: '10px 16px', borderRadius: 999,
+                border: '1px solid var(--border)', background: 'var(--surface)',
+                color: 'var(--text-muted)', cursor: 'pointer', fontWeight: 600,
+              }}>
+                Sign out
+              </button>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', gap: 8 }}>
+              <NavLink to="/login" style={{
+                fontSize: 13, padding: '10px 16px', borderRadius: 999,
+                border: '1px solid var(--border)', color: 'var(--text-muted)',
+                textDecoration: 'none', fontWeight: 600,
+                background: 'var(--surface)',
+              }}>
+                Log in
+              </NavLink>
+              <NavLink to="/signup" style={{
+                fontSize: 13, padding: '10px 16px', borderRadius: 999,
+                background: 'linear-gradient(135deg, var(--brand), var(--brand-strong))', color: 'var(--brand-contrast)',
+                textDecoration: 'none', fontWeight: 700,
+                boxShadow: 'var(--shadow)',
+              }}>
+                Join now
+              </NavLink>
+            </div>
+          )
+        )}
+
+        {/* Mobile: Hamburger button */}
+        {isMobile && (
+          <button
+            type="button"
+            onClick={() => setMenuOpen(v => !v)}
+            aria-label="Toggle menu"
+            style={{
+              display: 'flex', flexDirection: 'column', justifyContent: 'center',
+              alignItems: 'center', gap: 5,
+              width: 40, height: 40, borderRadius: 8,
+              border: '1px solid var(--border)',
+              background: menuOpen ? 'var(--brand-soft)' : 'var(--surface)',
+              cursor: 'pointer', padding: 0, flexShrink: 0,
+            }}
+          >
+            <span style={{
+              display: 'block', width: 18, height: 2, borderRadius: 2,
+              background: menuOpen ? 'var(--brand)' : 'var(--text-muted)',
+              transition: 'transform 0.2s, opacity 0.2s',
+              transform: menuOpen ? 'translateY(7px) rotate(45deg)' : 'none',
+            }} />
+            <span style={{
+              display: 'block', width: 18, height: 2, borderRadius: 2,
+              background: menuOpen ? 'var(--brand)' : 'var(--text-muted)',
+              opacity: menuOpen ? 0 : 1,
+              transition: 'opacity 0.2s',
+            }} />
+            <span style={{
+              display: 'block', width: 18, height: 2, borderRadius: 2,
+              background: menuOpen ? 'var(--brand)' : 'var(--text-muted)',
+              transition: 'transform 0.2s, opacity 0.2s',
+              transform: menuOpen ? 'translateY(-7px) rotate(-45deg)' : 'none',
+            }} />
+          </button>
+        )}
       </div>
+
+      {/* Mobile dropdown menu */}
+      {isMobile && menuOpen && (
+        <div style={{
+          borderTop: '1px solid var(--border)',
+          background: 'color-mix(in srgb, var(--surface) 96%, transparent)',
+          backdropFilter: 'blur(18px)',
+          padding: '12px 16px 16px',
+        }}>
+          {/* Nav links */}
+          <div style={{ marginBottom: 12 }}>
+            {user ? (
+              <>
+                <NavLink to="/dashboard"          style={mobileNavLinkStyle}>Home</NavLink>
+                <NavLink to="/dashboard/members"  style={mobileNavLinkStyle}>Members</NavLink>
+                <NavLink to="/dashboard/events"   style={mobileNavLinkStyle}>Events</NavLink>
+                <NavLink to="/dashboard/services" style={mobileNavLinkStyle}>Services</NavLink>
+                <NavLink to="/dashboard/submit"   style={mobileNavLinkStyle}>Submit event</NavLink>
+              </>
+            ) : (
+              <NavLink to="/" end style={mobileNavLinkStyle}>Home</NavLink>
+            )}
+          </div>
+
+          <div style={{ borderTop: '1px solid var(--border)', paddingTop: 12 }}>
+            {user ? (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <NavLink to="/dashboard/profile" style={{
+                  display: 'flex', alignItems: 'center', gap: 10,
+                  padding: '10px 12px', borderRadius: 10,
+                  border: '1px solid var(--border)',
+                  background: 'var(--surface-muted)',
+                  textDecoration: 'none', color: 'var(--text-strong)',
+                }}>
+                  <div style={{
+                    width: 32, height: 32, borderRadius: '50%', flexShrink: 0,
+                    background: 'linear-gradient(135deg, var(--brand), var(--brand-strong))',
+                    color: 'var(--brand-contrast)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontSize: 11, fontWeight: 800,
+                  }}>
+                    {initials(user.name)}
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 13, fontWeight: 600 }}>{user.name.split(' ')[0]}</div>
+                    <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>View profile</div>
+                  </div>
+                </NavLink>
+                <button onClick={handleLogout} style={{
+                  width: '100%', padding: '12px 16px', borderRadius: 8, fontSize: 14,
+                  border: '1px solid var(--border)', background: 'var(--surface)',
+                  color: 'var(--danger)', cursor: 'pointer', fontWeight: 600,
+                  textAlign: 'left',
+                }}>
+                  Sign out
+                </button>
+              </div>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <NavLink to="/login" style={{
+                  display: 'block', textAlign: 'center',
+                  fontSize: 14, padding: '12px 16px', borderRadius: 8,
+                  border: '1px solid var(--border)', color: 'var(--text-muted)',
+                  textDecoration: 'none', fontWeight: 600,
+                  background: 'var(--surface)',
+                }}>
+                  Log in
+                </NavLink>
+                <NavLink to="/signup" style={{
+                  display: 'block', textAlign: 'center',
+                  fontSize: 14, padding: '12px 16px', borderRadius: 8,
+                  background: 'linear-gradient(135deg, var(--brand), var(--brand-strong))',
+                  color: 'var(--brand-contrast)',
+                  textDecoration: 'none', fontWeight: 700,
+                }}>
+                  Join now
+                </NavLink>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </nav>
   );
 }

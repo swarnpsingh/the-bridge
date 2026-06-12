@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { getMembers, getEvents } from '../api';
+import { useBreakpoint } from '../hooks/useBreakpoint';
 
 const avatarColors = ['#e0e7ff','#fce7f3','#d1fae5','#fef3c7','#dbeafe'];
 const avatarText   = ['#4338ca','#9d174d','#065f46','#92400e','#1e40af'];
@@ -56,6 +57,7 @@ const quickActions = [
 
 export default function Home() {
   const { user } = useAuth();
+  const { isMobile, isTablet, isDesktop } = useBreakpoint();
   const [members, setMembers] = useState([]);
   const [events, setEvents]   = useState([]);
   const [loading, setLoading] = useState(false);
@@ -86,12 +88,14 @@ export default function Home() {
     ];
 
     return (
-      <div style={{ maxWidth: 1080, margin: '0 auto', padding: '32px 24px' }}>
+      <div style={{ maxWidth: 1080, margin: '0 auto', padding: isMobile ? '16px' : '32px 24px' }}>
 
         {/* ── Welcome banner ── */}
         <div className="anim-fade-up" style={{
           position: 'relative', overflow: 'hidden',
-          borderRadius: 20, padding: '36px 40px', marginBottom: 20,
+          borderRadius: 20,
+          padding: isMobile ? '24px 20px' : '36px 40px',
+          marginBottom: 20,
           background: 'linear-gradient(135deg, #1e3a8a 0%, #2563eb 40%, #7c3aed 100%)',
           backgroundSize: '200% 200%',
           animation: 'gradientShift 8s ease infinite',
@@ -118,8 +122,11 @@ export default function Home() {
               <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.65)', marginBottom: 6, fontWeight: 500 }}>
                 Welcome back 👋
               </div>
-              <h1 style={{ fontSize: 30, fontWeight: 800, color: '#fff',
-                           letterSpacing: '-0.8px', marginBottom: 10, lineHeight: 1.1 }}>
+              <h1 style={{
+                fontSize: isMobile ? 22 : 30,
+                fontWeight: 800, color: '#fff',
+                letterSpacing: '-0.8px', marginBottom: 10, lineHeight: 1.1,
+              }}>
                 {user.name}
               </h1>
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
@@ -148,20 +155,23 @@ export default function Home() {
               }}>
                 Edit profile
               </Link>
-              <Link to="/dashboard/members" style={{
-                padding: '10px 20px', borderRadius: 10, fontSize: 13, fontWeight: 700,
-                background: '#fff', color: '#2563eb', textDecoration: 'none',
-                boxShadow: '0 4px 16px rgba(0,0,0,0.18)',
-              }}>
-                Browse members →
-              </Link>
+              {!isMobile && (
+                <Link to="/dashboard/members" style={{
+                  padding: '10px 20px', borderRadius: 10, fontSize: 13, fontWeight: 700,
+                  background: '#fff', color: '#2563eb', textDecoration: 'none',
+                  boxShadow: '0 4px 16px rgba(0,0,0,0.18)',
+                }}>
+                  Browse members →
+                </Link>
+              )}
             </div>
           </div>
         </div>
 
         {/* ── Stats ── */}
         <div style={{
-          display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)',
+          display: 'grid',
+          gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
           gap: 12, marginBottom: 20,
         }}>
           {stats.map((s, i) => (
@@ -190,7 +200,7 @@ export default function Home() {
         </div>
 
         {/* ── Two columns ── */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 16 }}>
 
           {/* Recent members */}
           <div className="anim-fade-up" style={{
@@ -354,7 +364,8 @@ export default function Home() {
 
         {/* ── Quick actions ── */}
         <div style={{
-          display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)',
+          display: 'grid',
+          gridTemplateColumns: isMobile ? '1fr' : isTablet ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
           gap: 12, marginTop: 16,
         }}>
           {quickActions.map((a, i) => (

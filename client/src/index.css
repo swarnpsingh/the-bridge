@@ -204,3 +204,21 @@ button { cursor: pointer; }
 .theme-toggle[data-active='dark'] .theme-toggle__thumb {
   background: var(--brand-strong);
 }
+
+/* ── Responsive helpers ───────────────────────────── */
+.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.table-scroll table { min-width: 600px; }
+
+/* Sidebar overlay on mobile */
+.sidebar-backdrop {
+  display: none;
+  position: fixed; inset: 0;
+  background: var(--overlay);
+  z-index: 149;
+}
+.sidebar-backdrop.open { display: block; }
+
+@media (max-width: 767px) {
+  .resp-hide-mobile { display: none !important; }
+  .resp-px-mobile { padding-left: 16px !important; padding-right: 16px !important; }
+}
