@@ -42,7 +42,7 @@ const Td = ({ children, style }) => (
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
-  const { isMobile, isTablet, isDesktop } = useBreakpoint();
+  const { isMobile } = useResponsive();
   const [members, setMembers] = useState([]);
   const [events, setEvents] = useState([]);
   const [services, setServices] = useState([]);
