@@ -8,6 +8,7 @@ const app = express();
 app.use(cors({
   origin: [
     'http://localhost:3000',
+    'https://the-bridge-dusky.vercel.app',
     'https://thebridge.bridgemakersmn.org',
   ],
   credentials: true,
