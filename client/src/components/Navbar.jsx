@@ -66,14 +66,11 @@ export default function Navbar() {
           fontSize: 18, fontWeight: 800, color: 'var(--text-strong)',
           marginRight: 8, letterSpacing: '-0.5px', textDecoration: 'none',
         }}>
-          <span style={{
-            width: 36, height: 36, borderRadius: 12,
-            background: 'linear-gradient(135deg, var(--brand), var(--brand-strong))',
-            color: 'var(--brand-contrast)',
-            display: 'grid', placeItems: 'center',
-            boxShadow: 'var(--shadow)',
-            fontSize: 16,
-          }}>🌉</span>
+          <img
+            src="/bridgemakersLogo.png"
+            alt="Bridgemakers"
+            style={{ width: 36, height: 36, borderRadius: 8, objectFit: 'contain', display: 'block' }}
+          />
           <span><span style={{ color: 'var(--brand)' }}>The</span> Bridge</span>
         </NavLink>
 

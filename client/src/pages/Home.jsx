@@ -452,14 +452,12 @@ export default function Home() {
         }} />
 
         {/* Floating logo */}
-        <div className="anim-float" style={{
-          width: 72, height: 72, borderRadius: 22,
-          background: 'linear-gradient(135deg, #2563eb, #7c3aed)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: 34, margin: '0 auto 28px',
-          boxShadow: '0 16px 48px rgba(37,99,235,0.5)',
-        }}>
-          🌉
+        <div className="anim-float" style={{ width: 80, height: 80, margin: '0 auto 28px' }}>
+          <img
+            src="/bridgemakersLogo.png"
+            alt="Bridgemakers"
+            style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+          />
         </div>
 
         {/* Badge */}
@@ -646,7 +644,7 @@ export default function Home() {
         }} />
 
         <div style={{ position: 'relative' }}>
-          <div style={{ fontSize: 40, marginBottom: 16 }}>🌉</div>
+          <img src="/bridgemakersLogo.png" alt="Bridgemakers" style={{ width: 56, height: 56, objectFit: 'contain', display: 'block', margin: '0 auto 16px' }} />
           <h2 style={{ fontSize: 30, fontWeight: 900, color: '#fff',
                        marginBottom: 12, letterSpacing: '-0.8px' }}>
             Ready to cross the bridge?

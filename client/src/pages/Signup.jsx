@@ -90,13 +90,11 @@ export default function Signup() {
 
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: 28 }}>
-          <div style={{
-            width: 48, height: 48, borderRadius: 16,
-            background: 'linear-gradient(135deg, var(--brand), var(--brand-strong))',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 20, margin: '0 auto 16px',
-            boxShadow: 'var(--shadow)',
-          }}>🌉</div>
+          <img
+            src="/bridgemakersLogo.png"
+            alt="Bridgemakers"
+            style={{ width: 56, height: 56, objectFit: 'contain', display: 'block', margin: '0 auto 16px' }}
+          />
           <h1 style={{ fontSize: 24, fontWeight: 800, color: 'var(--text-strong)',
                        letterSpacing: '-0.5px', marginBottom: 6 }}>
             Join The Bridge
