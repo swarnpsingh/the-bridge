@@ -16,12 +16,18 @@ export default function DashboardEvents() {
   const [rsvpForm, setRsvpForm] = useState({ name: '', email: '' });
   const [rsvpError, setRsvpError] = useState('');
 
-  useEffect(() => {
+  const fetchEvents = () => {
     setLoading(true);
     getEvents()
       .then(r => setEvents(Array.isArray(r.data) ? r.data : []))
       .catch(() => {})
       .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    fetchEvents();
+    window.addEventListener('focus', fetchEvents);
+    return () => window.removeEventListener('focus', fetchEvents);
   }, []);
 
   const openRsvp = (event) => {

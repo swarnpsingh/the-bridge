@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { adminLogin } from '../api';
 
 export default function AdminLogin() {
@@ -121,7 +121,16 @@ export default function AdminLogin() {
             </button>
           </form>
         </div>
+        {/* Member link */}
+        <p style={{ textAlign: 'center', marginTop: 20, fontSize: 12, color: 'var(--text-subtle)' }}>
+          Bridgemakers member?{' '}
+          <Link to="/login" style={{ color: 'var(--brand)' }}>
+            Member login →
+          </Link>
+        </p>
       </div>
+      
     </div>
+    
   );
 }
