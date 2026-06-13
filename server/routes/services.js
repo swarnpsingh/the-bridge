@@ -7,6 +7,7 @@ router.get('/', async (req, res) => {
     const filter = {};
     if (req.query.type)     filter.type     = req.query.type;
     if (req.query.category) filter.category = req.query.category;
+    if (req.query.postedBy) filter.postedBy = req.query.postedBy;
     const services = await Service.find(filter)
       .populate('postedBy', 'name email linkedin memberType location')
       .sort({ createdAt: -1 });

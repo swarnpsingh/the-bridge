@@ -28,9 +28,10 @@ export const submitEvent = (data)     => api.post('/events', data);
 export const rsvpEvent   = (id, data) => api.post(`/events/${id}/rsvp`, data);
 
 // ── Services ─────────────────────────────────────────────────
-export const getServices   = (params) => api.get('/services', { params });
-export const createService = (data)   => api.post('/services', data);
-export const deleteService = (id)     => api.delete(`/services/${id}`);
+export const getServices          = (params) => api.get('/services', { params });
+export const createService        = (data)   => api.post('/services', data);
+export const deleteService        = (id)     => api.delete(`/services/${id}`);
+export const getExchangesByMember = (memberId) => api.get('/services', { params: { postedBy: memberId } });
 
 // ── Admin ────────────────────────────────────────────────────
 const adminHeaders = () => ({

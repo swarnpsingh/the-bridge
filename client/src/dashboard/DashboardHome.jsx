@@ -26,7 +26,7 @@ const statGrads = [
 ];
 
 const quickActions = [
-  { icon: '🤝', label: 'Offer a service',    sub: 'Share your skills with the community',         to: '/dashboard/services', cta: 'Post service →',   grad: 'linear-gradient(135deg,#2563eb,#60a5fa)' },
+  { icon: '🤝', label: 'Post an exchange',    sub: 'Share your skills with the community',         to: '/dashboard/exchanges', cta: 'Post exchange →',   grad: 'linear-gradient(135deg,#2563eb,#60a5fa)' },
   { icon: '📅', label: 'Suggest an event',   sub: 'Propose an event for Bridgemakers to approve', to: '/dashboard/submit',   cta: 'Submit →',         grad: 'linear-gradient(135deg,#7c3aed,#a78bfa)' },
   { icon: '👥', label: 'Find a mentor',      sub: 'Browse members who are here to guide',         to: '/dashboard/members',  cta: 'Browse mentors →', grad: 'linear-gradient(135deg,#059669,#34d399)' },
 ];
@@ -55,7 +55,7 @@ export default function DashboardHome() {
     { label: 'Members',  value: members.length },
     { label: 'Mentors',  value: members.filter(m => m.platformRole === 'Mentor').length },
     { label: 'Events',   value: events.length },
-    { label: 'Services', value: '—' },
+    { label: 'Exchanges', value: '—' },
   ];
 
   return (
@@ -208,11 +208,11 @@ export default function DashboardHome() {
               {featured.map((m, i) => {
                 const ts = typeColors[m.memberType] || typeColors.Other;
                 return (
-                  <div key={m._id} style={{
+                  <Link key={m._id} to={`/dashboard/members/${m._id}`} style={{
                     display: 'flex', alignItems: 'center', gap: 12,
                     padding: '10px 12px', borderRadius: 10,
                     border: '1px solid var(--border)', background: 'var(--surface-muted)',
-                    transition: 'transform 0.15s',
+                    transition: 'transform 0.15s', textDecoration: 'none',
                   }}
                     onMouseEnter={e => e.currentTarget.style.transform = 'translateX(4px)'}
                     onMouseLeave={e => e.currentTarget.style.transform = 'translateX(0)'}
@@ -241,7 +241,7 @@ export default function DashboardHome() {
                     }}>
                       {m.memberType}
                     </span>
-                  </div>
+                  </Link>
                 );
               })}
             </div>

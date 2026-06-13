@@ -45,7 +45,7 @@ export default function AdminServices() {
   useEffect(() => { load(); }, [load]);
 
   const handleRemove = async (id) => {
-    if (!window.confirm('Remove this service listing permanently?')) return;
+    if (!window.confirm('Remove this exchange permanently?')) return;
     setRemoving(id);
     try {
       await adminDeleteService(id);
@@ -65,10 +65,10 @@ export default function AdminServices() {
     <div>
       <div style={{ marginBottom: 28 }}>
         <h1 style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-strong)', letterSpacing: '-0.5px', marginBottom: 4 }}>
-          Services
+          Exchanges
         </h1>
         <p style={{ fontSize: 14, color: 'var(--text-muted)' }}>
-          {services.length} listing{services.length !== 1 ? 's' : ''} across the community.
+          {services.length} exchange{services.length !== 1 ? 's' : ''} in the community.
         </p>
       </div>
 
@@ -78,7 +78,7 @@ export default function AdminServices() {
           borderRadius: 14, padding: '48px 24px',
           textAlign: 'center', color: 'var(--text-subtle)', fontSize: 14,
         }}>
-          No service listings yet.
+          No exchanges yet.
         </div>
       ) : (
         <div className="table-scroll" style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 14, overflow: 'hidden' }}>

@@ -6,7 +6,7 @@ const navItems = [
   { to: '/admin/dashboard', label: 'Overview',  icon: '⊞', end: true },
   { to: '/admin/members',   label: 'Members',   icon: '👥' },
   { to: '/admin/events',    label: 'Events',    icon: '📅' },
-  { to: '/admin/services',  label: 'Services',  icon: '⇄'  },
+  { to: '/admin/exchanges',  label: 'Exchanges',  icon: '⇄'  },
 ];
 
 export default function AdminLayout() {

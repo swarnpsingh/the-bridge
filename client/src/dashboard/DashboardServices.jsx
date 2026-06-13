@@ -114,7 +114,7 @@ export default function DashboardServices() {
         <div>
           <h1 style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-strong)',
                        letterSpacing: '-0.5px', marginBottom: 4 }}>
-            Services exchange
+            Exchanges
           </h1>
           <p style={{ fontSize: 14, color: 'var(--text-muted)' }}>
             Offer your skills or ask the community for help.
@@ -124,7 +124,7 @@ export default function DashboardServices() {
           padding: '9px 18px', borderRadius: 8, fontSize: 13, fontWeight: 500,
           background: 'var(--brand)', color: 'var(--brand-contrast)', border: 'none', cursor: 'pointer',
         }}>
-          + Post a service
+          + Post an exchange
         </button>
       </div>
 
@@ -158,7 +158,7 @@ export default function DashboardServices() {
       {loading ? (
         <div style={{ textAlign: 'center', padding: '60px 0',
                       color: 'var(--text-subtle)', fontSize: 14 }}>
-          Loading services...
+          Loading exchanges...
         </div>
       ) : services.length === 0 ? (
         <div style={{
@@ -170,7 +170,7 @@ export default function DashboardServices() {
           </div>
           <p style={{ fontSize: 15, fontWeight: 600,
                       color: 'var(--text-strong)', marginBottom: 6 }}>
-            No {tab.toLowerCase()} services yet
+            No {tab.toLowerCase()} exchanges yet
           </p>
           <p style={{ fontSize: 13, color: 'var(--text-subtle)', marginBottom: 20 }}>
             {tab === 'Offered'
@@ -185,7 +185,7 @@ export default function DashboardServices() {
             background: 'var(--brand)', color: 'var(--brand-contrast)',
             fontSize: 13, fontWeight: 500, border: 'none', cursor: 'pointer',
           }}>
-            Post a service
+            Post an exchange
           </button>
         </div>
       ) : (
@@ -327,7 +327,7 @@ export default function DashboardServices() {
             <div style={{ display: 'flex', justifyContent: 'space-between',
                           alignItems: 'center', marginBottom: 20 }}>
               <h2 style={{ fontSize: 17, fontWeight: 700, color: 'var(--text-strong)' }}>
-                Post a service
+                Post an exchange
               </h2>
               <button onClick={() => setShowForm(false)} style={{
                 background: 'none', border: 'none', fontSize: 20,
@@ -356,7 +356,7 @@ export default function DashboardServices() {
                         cursor: 'pointer', fontWeight: 500,
                         transition: 'all 0.15s',
                       }}>
-                      {t === 'Offered' ? '🙋 Offer a service' : '🙏 Request help'}
+                      {t === 'Offered' ? '🙋 Offer an exchange' : '🙏 Request help'}
                     </button>
                   ))}
                 </div>
@@ -544,7 +544,7 @@ export default function DashboardServices() {
             </h2>
             <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 24 }}>
               This will permanently remove <strong>{deleteConfirm.title}</strong> from
-              the services exchange.
+              the exchanges.
             </p>
             <div style={{ display: 'flex', gap: 10 }}>
               <button onClick={() => setDeleteConfirm(null)} style={{

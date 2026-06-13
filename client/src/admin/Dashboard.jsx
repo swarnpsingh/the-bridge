@@ -121,7 +121,7 @@ export default function AdminDashboard() {
         <StatCard label="Total members" value={members.length} />
         <StatCard label="Mentors" value={mentors} />
         <StatCard label="Pending approvals" value={pending.length} accent={pending.length > 0} />
-        <StatCard label="Service listings" value={services.length} />
+        <StatCard label="Exchanges" value={services.length} />
       </div>
 
       {/* Pending approvals */}

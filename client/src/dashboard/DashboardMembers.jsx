@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { getMembers } from '../api';
 
@@ -23,6 +23,7 @@ const initials = (name) =>
 
 export default function DashboardMembers() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [members, setMembers]     = useState([]);
   const [loading, setLoading]     = useState(true);
   const [typeFilter, setTypeFilter] = useState('All');
@@ -178,7 +179,9 @@ export default function DashboardMembers() {
                 borderRadius: 14, padding: 20,
                 position: 'relative',
                 transition: 'transform 0.15s, border-color 0.15s',
+                cursor: 'pointer',
               }}
+                onClick={() => navigate(`/dashboard/members/${m._id}`)}
                 onMouseEnter={e => {
                   e.currentTarget.style.transform = 'translateY(-2px)';
                   if (!isMe) e.currentTarget.style.borderColor = 'var(--border-strong)';
@@ -271,7 +274,7 @@ export default function DashboardMembers() {
                   borderTop: '1px solid var(--border)', paddingTop: 14,
                 }}>
                   {isMe ? (
-                    <Link to="/dashboard/profile" style={{
+                    <Link to="/dashboard/profile" onClick={e => e.stopPropagation()} style={{
                       flex: 1, textAlign: 'center', padding: '8px',
                       background: 'var(--brand)', borderRadius: 8,
                       fontSize: 12, color: 'var(--brand-contrast)', fontWeight: 500,
@@ -284,7 +287,9 @@ export default function DashboardMembers() {
                       {m.linkedin && (
                         <a href={m.linkedin.startsWith('http')
                             ? m.linkedin : `https://${m.linkedin}`}
-                          target="_blank" rel="noreferrer" style={{
+                          target="_blank" rel="noreferrer"
+                          onClick={e => e.stopPropagation()}
+                          style={{
                             flex: 1, textAlign: 'center', padding: '8px',
                             border: '1px solid var(--border)', borderRadius: 8,
                             fontSize: 12, color: 'var(--text-muted)', fontWeight: 500,
@@ -293,7 +298,7 @@ export default function DashboardMembers() {
                           LinkedIn
                         </a>
                       )}
-                      <a href={`mailto:${m.email}`} style={{
+                      <a href={`mailto:${m.email}`} onClick={e => e.stopPropagation()} style={{
                         flex: 1, textAlign: 'center', padding: '8px',
                         background: 'var(--brand)', borderRadius: 8,
                         fontSize: 12, color: 'var(--brand-contrast)', fontWeight: 500,

@@ -10,7 +10,7 @@ const navItems = [
   { to: '/dashboard',          label: 'Home',     icon: '⊞', end: true },
   { to: '/dashboard/members',  label: 'Members',  icon: '👥' },
   { to: '/dashboard/events',   label: 'Events',   icon: '📅' },
-  { to: '/dashboard/services', label: 'Services', icon: '⇄'  },
+  { to: '/dashboard/exchanges', label: 'Exchanges', icon: '⇄'  },
   { to: '/dashboard/submit',   label: 'Submit event', icon: '➕' },
 ];
 

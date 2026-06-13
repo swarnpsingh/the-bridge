@@ -82,7 +82,7 @@ export default function Navbar() {
                 <NavLink to="/dashboard"          style={navLinkStyle}>Home</NavLink>
                 <NavLink to="/dashboard/members"  style={navLinkStyle}>Members</NavLink>
                 <NavLink to="/dashboard/events"   style={navLinkStyle}>Events</NavLink>
-                <NavLink to="/dashboard/services" style={navLinkStyle}>Services</NavLink>
+                <NavLink to="/dashboard/exchanges" style={navLinkStyle}>Exchanges</NavLink>
                 <NavLink to="/dashboard/submit"   style={navLinkStyle}>Submit event</NavLink>
               </>
             ) : (
@@ -222,7 +222,7 @@ export default function Navbar() {
                 <NavLink to="/dashboard"          style={mobileNavLinkStyle}>Home</NavLink>
                 <NavLink to="/dashboard/members"  style={mobileNavLinkStyle}>Members</NavLink>
                 <NavLink to="/dashboard/events"   style={mobileNavLinkStyle}>Events</NavLink>
-                <NavLink to="/dashboard/services" style={mobileNavLinkStyle}>Services</NavLink>
+                <NavLink to="/dashboard/exchanges" style={mobileNavLinkStyle}>Exchanges</NavLink>
                 <NavLink to="/dashboard/submit"   style={mobileNavLinkStyle}>Submit event</NavLink>
               </>
             ) : (

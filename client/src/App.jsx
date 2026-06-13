@@ -14,6 +14,7 @@ import DashboardMembers from "./dashboard/DashboardMembers";
 import DashboardEvents from "./dashboard/DashboardEvents";
 import DashboardServices from "./dashboard/DashboardServices";
 import DashboardSubmit from "./dashboard/DashboardSubmit";
+import MemberProfile from "./dashboard/MemberProfile";
 import DashboardProfile from "./dashboard/DashboardProfile";
 
 import AdminLogin from "./admin/AdminLogin";
@@ -59,8 +60,9 @@ export default function App() {
             >
               <Route index element={<DashboardHome />} />
               <Route path="members" element={<DashboardMembers />} />
+              <Route path="members/:id" element={<MemberProfile />} />
               <Route path="events" element={<DashboardEvents />} />
-              <Route path="services" element={<DashboardServices />} />
+              <Route path="exchanges" element={<DashboardServices />} />
               <Route path="submit" element={<DashboardSubmit />} />
               <Route path="profile" element={<DashboardProfile />} />
             </Route>
@@ -79,7 +81,7 @@ export default function App() {
               <Route path="dashboard" element={<AdminDashboard />} />
               <Route path="members" element={<AdminMembers />} />
               <Route path="events" element={<AdminEvents />} />
-              <Route path="services" element={<AdminServices />} />
+              <Route path="exchanges" element={<AdminServices />} />
             </Route>
           </Routes>
         </main>
