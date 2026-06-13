@@ -32,8 +32,11 @@ export default function AdminServices() {
     try {
       const res = await adminGetServices();
       setServices(Array.isArray(res.data) ? res.data : []);
-    } catch {
-      navigate('/admin/login', { replace: true });
+    } catch (err) {
+      if (err?.response?.status === 401) {
+        localStorage.removeItem('adminToken');
+        navigate('/admin/login', { replace: true });
+      }
     } finally {
       setLoading(false);
     }

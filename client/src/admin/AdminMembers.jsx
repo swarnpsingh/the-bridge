@@ -32,8 +32,11 @@ export default function AdminMembers() {
     try {
       const res = await adminGetMembers();
       setMembers(Array.isArray(res.data) ? res.data : []);
-    } catch {
-      navigate('/admin/login', { replace: true });
+    } catch (err) {
+      if (err?.response?.status === 401) {
+        localStorage.removeItem('adminToken');
+        navigate('/admin/login', { replace: true });
+      }
     } finally {
       setLoading(false);
     }

@@ -42,7 +42,7 @@ const Td = ({ children, style }) => (
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
-  const { isMobile } = useResponsive();
+  const { isMobile } = useBreakpoint();
   const [members, setMembers] = useState([]);
   const [events, setEvents] = useState([]);
   const [services, setServices] = useState([]);
@@ -60,8 +60,11 @@ export default function AdminDashboard() {
       setMembers(Array.isArray(mRes.data) ? mRes.data : []);
       setEvents(Array.isArray(eRes.data) ? eRes.data : []);
       setServices(Array.isArray(sRes.data) ? sRes.data : []);
-    } catch {
-      navigate('/admin/login', { replace: true });
+    } catch (err) {
+      if (err?.response?.status === 401) {
+        localStorage.removeItem('adminToken');
+        navigate('/admin/login', { replace: true });
+      }
     } finally {
       setLoading(false);
     }

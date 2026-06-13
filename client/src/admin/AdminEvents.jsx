@@ -58,7 +58,7 @@ const EMPTY_FORM = {
 
 export default function AdminEvents() {
   const navigate = useNavigate();
-  const { isMobile } = useResponsive();
+  const { isMobile } = useBreakpoint();
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(null);
@@ -72,8 +72,11 @@ export default function AdminEvents() {
     try {
       const res = await adminGetEvents();
       setEvents(Array.isArray(res.data) ? res.data : []);
-    } catch {
-      navigate("/admin/login", { replace: true });
+    } catch (err) {
+      if (err?.response?.status === 401) {
+        localStorage.removeItem('adminToken');
+        navigate('/admin/login', { replace: true });
+      }
     } finally {
       setLoading(false);
     }
