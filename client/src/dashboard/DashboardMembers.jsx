@@ -115,7 +115,7 @@ export default function DashboardMembers() {
           <div style={{ fontSize: 11, color: 'var(--text-subtle)', fontWeight: 600,
                         textTransform: 'uppercase', letterSpacing: '.05em',
                         marginBottom: 8 }}>
-            Member type
+            Member tag
           </div>
           <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
             {TYPES.map(t => (

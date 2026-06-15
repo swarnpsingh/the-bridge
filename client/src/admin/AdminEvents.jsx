@@ -54,6 +54,7 @@ const EMPTY_FORM = {
   format: "Online",
   location: "",
   host: "",
+  rsvpLink: "",
 };
 
 export default function AdminEvents() {
@@ -361,6 +362,27 @@ export default function AdminEvents() {
                   style={inputStyle}
                 />
               </div>
+            </div>
+            <div style={{ marginBottom: 14 }}>
+              <label
+                style={{
+                  display: "block",
+                  fontSize: 12,
+                  fontWeight: 500,
+                  color: "var(--text-muted)",
+                  marginBottom: 5,
+                }}
+              >
+                RSVP link
+              </label>
+              <input
+                value={form.rsvpLink}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, rsvpLink: e.target.value }))
+                }
+                placeholder="https://lu.ma/your-event"
+                style={inputStyle}
+              />
             </div>
             <div style={{ marginBottom: 14 }}>
               <label

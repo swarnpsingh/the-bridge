@@ -8,6 +8,7 @@ const EventSchema = new mongoose.Schema(
     format: { type: String, enum: ["Online", "In-person"], default: "In-person", required: true },
     location: { type: String },
     host: { type: String },
+    rsvpLink: { type: String },
     rsvps: [{ name: String, email: String }],
     approved: { type: Boolean, default: false },
     submittedBy: { name: String, email: String },

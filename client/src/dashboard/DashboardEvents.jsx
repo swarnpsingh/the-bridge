@@ -1,20 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getEvents, rsvpEvent } from '../api';
-import { useAuth } from '../context/AuthContext';
+import { getEvents } from '../api';
 
 const FILTERS = ['All', 'Online', 'In-person'];
 
 export default function DashboardEvents() {
-  const { user } = useAuth();
-  const [events, setEvents]     = useState([]);
-  const [loading, setLoading]   = useState(true);
-  const [filter, setFilter]     = useState('All');
-  const [rsvping, setRsvping]   = useState(null);
-  const [rsvpDone, setRsvpDone] = useState([]);
-  const [rsvpLoading, setRsvpLoading] = useState(false);
-  const [rsvpForm, setRsvpForm] = useState({ name: '', email: '' });
-  const [rsvpError, setRsvpError] = useState('');
+  const [events, setEvents]   = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [filter, setFilter]   = useState('All');
 
   const fetchEvents = () => {
     setLoading(true);
@@ -29,29 +22,6 @@ export default function DashboardEvents() {
     window.addEventListener('focus', fetchEvents);
     return () => window.removeEventListener('focus', fetchEvents);
   }, []);
-
-  const openRsvp = (event) => {
-    setRsvpForm({ name: user?.name || '', email: user?.email || '' });
-    setRsvpError('');
-    setRsvping(event);
-  };
-
-  const handleRsvp = async () => {
-    if (!rsvpForm.name || !rsvpForm.email) {
-      setRsvpError('Please fill in your name and email.');
-      return;
-    }
-    setRsvpLoading(true);
-    try {
-      await rsvpEvent(rsvping._id, rsvpForm);
-      setRsvpDone(d => [...d, rsvping._id]);
-      setRsvping(null);
-    } catch {
-      setRsvpError('Something went wrong. Please try again.');
-    } finally {
-      setRsvpLoading(false);
-    }
-  };
 
   const safeEvents = Array.isArray(events) ? events : [];
 
@@ -72,11 +42,9 @@ export default function DashboardEvents() {
   };
 
   const EventCard = ({ event, isPast }) => {
-    const d      = new Date(event.date);
-    const month  = d.toLocaleString('en', { month: 'short' }).toUpperCase();
-    const day    = d.getDate();
-    const done   = rsvpDone.includes(event._id);
-    const alreadyRsvpd = event.rsvps?.some(r => r.email === user?.email) || done;
+    const d     = new Date(event.date);
+    const month = d.toLocaleString('en', { month: 'short' }).toUpperCase();
+    const day   = d.getDate();
 
     return (
       <div style={{
@@ -172,37 +140,24 @@ export default function DashboardEvents() {
           )}
 
           {/* Footer row */}
-          <div style={{ display: 'flex', alignItems: 'center',
-                        justifyContent: 'space-between', flexWrap: 'wrap', gap: 10 }}>
-            <div style={{ fontSize: 12, color: 'var(--text-subtle)' }}>
-              {event.rsvps?.length > 0
-                ? `${event.rsvps.length} RSVP${event.rsvps.length !== 1 ? 's' : ''}`
-                : 'No RSVPs yet'}
-            </div>
-
-            {!isPast && (
-              alreadyRsvpd ? (
-                <span style={{
-                  fontSize: 12, padding: '8px 18px', borderRadius: 8,
-                  background: 'var(--success-soft)', color: 'var(--success)',
-                  border: '1px solid color-mix(in srgb, var(--success) 30%, transparent)',
-                  fontWeight: 500,
-                }}>
-                  ✓ You're going
-                </span>
-              ) : (
-                <button onClick={() => openRsvp(event)} style={{
-                  fontSize: 13, padding: '8px 20px', borderRadius: 8,
-                  background: 'var(--brand)', color: 'var(--brand-contrast)',
-                  border: 'none', cursor: 'pointer', fontWeight: 500,
-                  transition: 'opacity 0.15s',
-                }}
-                  onMouseEnter={e => e.target.style.opacity = '0.85'}
-                  onMouseLeave={e => e.target.style.opacity = '1'}
-                >
-                  RSVP →
-                </button>
-              )
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 12 }}>
+            {event.rsvpLink ? (
+              <a href={event.rsvpLink} target="_blank" rel="noreferrer" style={{
+                fontSize: 13, padding: '8px 20px', borderRadius: 8,
+                background: 'var(--brand)', color: 'var(--brand-contrast)',
+                fontWeight: 500, textDecoration: 'none', display: 'inline-block',
+              }}>
+                RSVP →
+              </a>
+            ) : (
+              <span style={{
+                fontSize: 13, padding: '8px 20px', borderRadius: 8,
+                background: 'var(--surface-muted)', color: 'var(--text-subtle)',
+                fontWeight: 500, display: 'inline-block',
+                border: '1px solid var(--border)',
+              }}>
+                RSVP
+              </span>
             )}
           </div>
         </div>
@@ -303,120 +258,6 @@ export default function DashboardEvents() {
               {past.map(e => <EventCard key={e._id} event={e} isPast={true} />)}
             </>
           )}
-        </div>
-      )}
-
-      {/* RSVP Modal */}
-      {rsvping && (
-        <div style={{
-          position: 'fixed', inset: 0,
-          background: 'var(--overlay)',
-          display: 'flex', alignItems: 'center',
-          justifyContent: 'center', zIndex: 200,
-          padding: 24,
-        }}
-          onClick={e => { if (e.target === e.currentTarget) setRsvping(null); }}
-        >
-          <div style={{
-            background: 'var(--surface-solid)', borderRadius: 16,
-            padding: '32px', width: '100%', maxWidth: 400,
-            boxShadow: 'var(--shadow-strong)',
-            border: '1px solid var(--border)',
-          }}>
-            {/* Modal header */}
-            <div style={{ marginBottom: 20 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between',
-                            alignItems: 'flex-start' }}>
-                <h2 style={{ fontSize: 17, fontWeight: 700, color: 'var(--text-strong)',
-                             letterSpacing: '-0.3px' }}>
-                  RSVP to event
-                </h2>
-                <button onClick={() => setRsvping(null)} style={{
-                  background: 'none', border: 'none', fontSize: 20,
-                  cursor: 'pointer', color: 'var(--text-subtle)', lineHeight: 1,
-                }}>
-                  ×
-                </button>
-              </div>
-              <p style={{ fontSize: 13, color: 'var(--text-muted)', marginTop: 4 }}>
-                {rsvping.title}
-              </p>
-              <p style={{ fontSize: 12, color: 'var(--text-subtle)', marginTop: 2 }}>
-                {formatDate(rsvping.date)}
-                {rsvping.time ? ` · ${rsvping.time}` : ''}
-              </p>
-            </div>
-
-            {/* Form */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-              <div>
-                <label style={{ display: 'block', fontSize: 12,
-                                fontWeight: 500, color: 'var(--text-muted)', marginBottom: 6 }}>
-                  Your name
-                </label>
-                <input
-                  value={rsvpForm.name}
-                  onChange={e => setRsvpForm(f => ({ ...f, name: e.target.value }))}
-                  style={{
-                    width: '100%', padding: '10px 12px',
-                    border: '1px solid var(--border)', borderRadius: 8,
-                    fontSize: 14, outline: 'none',
-                    background: 'var(--surface-muted)', color: 'var(--text-strong)',
-                  }}
-                  onFocus={e => e.target.style.borderColor = 'var(--brand)'}
-                  onBlur={e  => e.target.style.borderColor = 'var(--border)'}
-                />
-              </div>
-              <div>
-                <label style={{ display: 'block', fontSize: 12,
-                                fontWeight: 500, color: 'var(--text-muted)', marginBottom: 6 }}>
-                  Email address
-                </label>
-                <input
-                  type="email"
-                  value={rsvpForm.email}
-                  onChange={e => setRsvpForm(f => ({ ...f, email: e.target.value }))}
-                  style={{
-                    width: '100%', padding: '10px 12px',
-                    border: '1px solid var(--border)', borderRadius: 8,
-                    fontSize: 14, outline: 'none',
-                    background: 'var(--surface-muted)', color: 'var(--text-strong)',
-                  }}
-                  onFocus={e => e.target.style.borderColor = 'var(--brand)'}
-                  onBlur={e  => e.target.style.borderColor = 'var(--border)'}
-                />
-              </div>
-
-              {rsvpError && (
-                <div style={{
-                  padding: '10px 14px', borderRadius: 8,
-                  background: 'var(--danger-soft)',
-                  border: '1px solid color-mix(in srgb, var(--danger) 24%, transparent)',
-                  fontSize: 13, color: 'var(--danger)',
-                }}>
-                  {rsvpError}
-                </div>
-              )}
-
-              <div style={{ display: 'flex', gap: 10, marginTop: 4 }}>
-                <button onClick={() => setRsvping(null)} style={{
-                  padding: '11px 18px', borderRadius: 8, fontSize: 13,
-                  border: '1px solid var(--border)', background: 'var(--surface)',
-                  color: 'var(--text-muted)', cursor: 'pointer', fontWeight: 500,
-                }}>
-                  Cancel
-                </button>
-                <button onClick={handleRsvp} disabled={rsvpLoading} style={{
-                  flex: 1, padding: '11px', borderRadius: 8, fontSize: 13,
-                  background: rsvpLoading ? 'var(--text-subtle)' : 'var(--brand)',
-                  color: 'var(--brand-contrast)', border: 'none', fontWeight: 600,
-                  cursor: rsvpLoading ? 'not-allowed' : 'pointer',
-                }}>
-                  {rsvpLoading ? 'Confirming...' : 'Confirm RSVP →'}
-                </button>
-              </div>
-            </div>
-          </div>
         </div>
       )}
     </div>

@@ -12,15 +12,15 @@ export default function CreateProfile() {
 
   const [form, setForm] = useState({
     name: '', email: '', linkedin: '', location: '',
-    role: '', company: '', memberType: '', platformRole: 'Member', bio: '',
+    role: '', company: '', memberType: [], platformRole: 'Member', bio: '',
   });
 
   const field = (key, val) => setForm(f => ({ ...f, [key]: val }));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.name || !form.email || !form.memberType) {
-      setError('Please fill in name, email and member type.');
+    if (!form.name || !form.email || !form.memberType.length) {
+      setError('Please fill in name, email and member tag.');
       return;
     }
     setLoading(true);
@@ -161,7 +161,7 @@ export default function CreateProfile() {
           </div>
         </div>
 
-        {/* Member type */}
+        {/* Member tag */}
         <div style={{
           background: 'var(--surface)', border: '1px solid var(--border)',
           borderRadius: 24, padding: '28px 32px', marginBottom: 16,
@@ -174,33 +174,25 @@ export default function CreateProfile() {
           </h2>
 
           <div style={{ marginBottom: 20 }}>
-            <label style={{ ...labelStyle, color: 'var(--text-muted)' }}>Member type <span style={{ color: 'var(--danger)' }}>*</span></label>
+            <label style={{ ...labelStyle, color: 'var(--text-muted)' }}>Member tag <span style={{ color: 'var(--danger)' }}>*</span></label>
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-              {MEMBER_TYPES.map(t => (
-                <button key={t} type="button" onClick={() => field('memberType', t)} style={{
-                  padding: '8px 18px', borderRadius: 20, fontSize: 13, fontWeight: 500,
-                  border: form.memberType === t ? '2px solid var(--brand)' : '1px solid var(--border)',
-                  background: form.memberType === t ? 'linear-gradient(135deg, var(--brand), var(--brand-strong))' : 'var(--surface-solid)',
-                  color: form.memberType === t ? 'var(--brand-contrast)' : 'var(--text-muted)',
-                  cursor: 'pointer', transition: 'all 0.15s',
-                }}>
-                  {t}
-                </button>
-              ))}
+              {MEMBER_TYPES.map(t => {
+                const active = form.memberType.includes(t);
+                return (
+                  <button key={t} type="button" onClick={() => field('memberType', active ? form.memberType.filter(x => x !== t) : [...form.memberType, t])} style={{
+                    padding: '8px 18px', borderRadius: 20, fontSize: 13, fontWeight: 500,
+                    border: active ? '2px solid var(--brand)' : '1px solid var(--border)',
+                    background: active ? 'linear-gradient(135deg, var(--brand), var(--brand-strong))' : 'var(--surface-solid)',
+                    color: active ? 'var(--brand-contrast)' : 'var(--text-muted)',
+                    cursor: 'pointer', transition: 'all 0.15s',
+                  }}>
+                    {t}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
-          <div>
-            <label style={{ ...labelStyle, color: 'var(--text-muted)' }}>I want to be a...</label>
-            <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-              <select style={{ ...inputStyle, width: 220 }} value={form.platformRole}
-                onChange={e => field('platformRole', e.target.value)}>
-                <option value="Member">Member</option>
-                <option value="Organizer">Organizer</option>
-                <option value="Moderator">Moderator</option>
-              </select>
-            </div>
-          </div>
 
           <div style={{ marginTop: 20, display: 'flex', gap: 10, alignItems: 'center' }}>
             {error && <div style={{ color: 'var(--danger)', fontSize: 13 }}>{error}</div>}

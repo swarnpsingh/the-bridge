@@ -108,7 +108,7 @@ export default function Members() {
         <div style={{ marginBottom: 10 }}>
           <div style={{ fontSize: 11, color: '#aaa', fontWeight: 500,
                         textTransform: 'uppercase', letterSpacing: '.05em', marginBottom: 8 }}>
-            Member type
+            Member tag
           </div>
           <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
             {TYPES.map(t => (

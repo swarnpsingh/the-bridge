@@ -18,7 +18,7 @@ export default function DashboardSubmit() {
   const [form, setForm] = useState({
     title: '', description: '', date: '',
     time: '', format: 'Online', location: '',
-    host: '', submittedBy: {
+    host: '', rsvpLink: '', submittedBy: {
       name: user?.name  || '',
       email: user?.email || '',
     },
@@ -95,7 +95,7 @@ export default function DashboardSubmit() {
             setSubmitted(false);
             setForm({
               title: '', description: '', date: '',
-              time: '', format: 'Online', location: '', host: '',
+              time: '', format: 'Online', location: '', host: '', rsvpLink: '',
               submittedBy: { name: user?.name || '', email: user?.email || '' },
             });
           }} style={{
@@ -239,6 +239,17 @@ export default function DashboardSubmit() {
               onChange={e => field('host', e.target.value)}
               onFocus={() => onFocus('host')}
               onBlur={() => onBlur('host')} />
+          </div>
+
+          {/* RSVP Link */}
+          <div style={{ marginBottom: 16 }}>
+            <label style={labelStyle}>RSVP link</label>
+            <input style={inputStyle('rsvpLink')}
+              placeholder="e.g. https://lu.ma/your-event or Eventbrite URL"
+              value={form.rsvpLink}
+              onChange={e => field('rsvpLink', e.target.value)}
+              onFocus={() => onFocus('rsvpLink')}
+              onBlur={() => onBlur('rsvpLink')} />
           </div>
 
           {/* Description */}

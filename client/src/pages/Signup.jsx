@@ -15,7 +15,7 @@ export default function Signup() {
 
   const [form, setForm] = useState({
     name: '', email: '', password: '', confirmPassword: '',
-    memberType: '', platformRole: 'Member',
+    memberType: [], platformRole: 'Member',
     role: '', company: '', location: '', linkedin: '', bio: '',
   });
 
@@ -47,7 +47,7 @@ export default function Signup() {
   };
 
   const validateStep2 = () => {
-    if (!form.memberType) return 'Please select your member type.';
+    if (!form.memberType.length) return 'Please select at least one member tag.';
     return null;
   };
 
@@ -212,47 +212,27 @@ export default function Signup() {
                 Tell us about yourself
               </h2>
 
-              {/* Member type */}
+              {/* Member tag */}
               <div style={{ marginBottom: 20 }}>
                 <label style={{ ...labelStyle, color: 'var(--text-muted)' }}>I am a... <span style={{color:'var(--danger)'}}>*</span></label>
                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                  {MEMBER_TYPES.map(t => (
-                    <button key={t} type="button" onClick={() => field('memberType', t)} style={{
-                      padding: '7px 16px', borderRadius: 20, fontSize: 12, fontWeight: 500,
-                      border: form.memberType === t ? '2px solid var(--brand)' : '1px solid var(--border)',
-                      background: form.memberType === t ? 'linear-gradient(135deg, var(--brand), var(--brand-strong))' : 'var(--surface-solid)',
-                      color: form.memberType === t ? 'var(--brand-contrast)' : 'var(--text-muted)',
-                      cursor: 'pointer', transition: 'all 0.15s',
-                    }}>
-                      {t}
-                    </button>
-                  ))}
+                  {MEMBER_TYPES.map(t => {
+                    const active = form.memberType.includes(t);
+                    return (
+                      <button key={t} type="button" onClick={() => field('memberType', active ? form.memberType.filter(x => x !== t) : [...form.memberType, t])} style={{
+                        padding: '7px 16px', borderRadius: 20, fontSize: 12, fontWeight: 500,
+                        border: active ? '2px solid var(--brand)' : '1px solid var(--border)',
+                        background: active ? 'linear-gradient(135deg, var(--brand), var(--brand-strong))' : 'var(--surface-solid)',
+                        color: active ? 'var(--brand-contrast)' : 'var(--text-muted)',
+                        cursor: 'pointer', transition: 'all 0.15s',
+                      }}>
+                        {t}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 
-              {/* Member vs Mentor */}
-              <div style={{ marginBottom: 20 }}>
-                <label style={{ ...labelStyle, color: 'var(--text-muted)' }}>My role on The Bridge</label>
-                <div style={{ display: 'flex', gap: 10 }}>
-                  {['Member', 'Mentor'].map(r => (
-                    <button key={r} type="button" onClick={() => field('platformRole', r)} style={{
-                      flex: 1, padding: '10px 12px', borderRadius: 10,
-                      border: form.platformRole === r ? '2px solid var(--brand)' : '1px solid var(--border)',
-                      background: form.platformRole === r ? 'linear-gradient(135deg, var(--brand), var(--brand-strong))' : 'var(--surface-solid)',
-                      color: form.platformRole === r ? 'var(--brand-contrast)' : 'var(--text-muted)',
-                      cursor: 'pointer', transition: 'all 0.15s', textAlign: 'left',
-                    }}>
-                      <div style={{ fontSize: 13, fontWeight: 600 }}>
-                        {r === 'Member' ? '👤 Member' : '🎓 Mentor'}
-                      </div>
-                      <div style={{ fontSize: 11, marginTop: 2,
-                                    color: form.platformRole === r ? 'var(--brand-soft-text)' : 'var(--text-subtle)' }}>
-                        {r === 'Member' ? 'Connect & collaborate' : 'Guide others'}
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              </div>
 
               {/* Optional fields */}
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
