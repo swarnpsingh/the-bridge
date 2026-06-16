@@ -18,4 +18,26 @@ router.post('/', async (req, res) => {
   }
 });
 
+router.post('/:id/rsvp', async (req, res) => {
+  try {
+    const { name, email } = req.body;
+    if (!name || !email) {
+      return res.status(400).json({ error: 'Name and email are required.' });
+    }
+    const event = await Event.findById(req.params.id);
+    if (!event) return res.status(404).json({ error: 'Event not found.' });
+
+    const alreadyRsvped = event.rsvps.some(
+      r => r.email.toLowerCase() === email.toLowerCase()
+    );
+    if (!alreadyRsvped) {
+      event.rsvps.push({ name, email });
+      await event.save();
+    }
+    res.json(event);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
 module.exports = router;

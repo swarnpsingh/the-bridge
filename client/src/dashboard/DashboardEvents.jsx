@@ -142,7 +142,7 @@ export default function DashboardEvents() {
           {/* Footer row */}
           <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 12 }}>
             {event.rsvpLink ? (
-              <a href={event.rsvpLink} target="_blank" rel="noreferrer" style={{
+              <a href={event.rsvpLink.startsWith('http') ? event.rsvpLink : `https://${event.rsvpLink}`} target="_blank" rel="noreferrer" style={{
                 fontSize: 13, padding: '8px 20px', borderRadius: 8,
                 background: 'var(--brand)', color: 'var(--brand-contrast)',
                 fontWeight: 500, textDecoration: 'none', display: 'inline-block',
