@@ -105,7 +105,7 @@ export default function DashboardLayout() {
               {user?.name?.split(' ')[0]}
             </div>
             <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>
-              {user?.memberType}
+              {user?.memberType?.join(', ')}
             </div>
           </div>
         </div>

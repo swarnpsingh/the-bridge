@@ -99,7 +99,7 @@ export default function DashboardHome() {
               {user?.name}
             </h1>
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-              {[user?.memberType, user?.platformRole, user?.location && `📍 ${user.location}`]
+              {[...(user?.memberType || []), user?.platformRole, user?.location && `📍 ${user.location}`]
                 .filter(Boolean)
                 .map((tag, i) => (
                   <span key={i} style={{
@@ -206,7 +206,7 @@ export default function DashboardHome() {
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {featured.map((m, i) => {
-                const ts = typeColors[m.memberType] || typeColors.Other;
+                const ts = typeColors[m.memberType?.[0]] || typeColors.Other;
                 return (
                   <Link key={m._id} to={`/dashboard/members/${m._id}`} style={{
                     display: 'flex', alignItems: 'center', gap: 12,
@@ -239,7 +239,7 @@ export default function DashboardHome() {
                       fontSize: 10, padding: '2px 8px', borderRadius: 20,
                       background: ts.bg, color: ts.color, fontWeight: 500, flexShrink: 0,
                     }}>
-                      {m.memberType}
+                      {m.memberType?.[0]}
                     </span>
                   </Link>
                 );

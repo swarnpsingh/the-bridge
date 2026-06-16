@@ -107,7 +107,6 @@ export default function MemberProfile() {
   );
 
   const isMe = member._id === user?._id;
-  const tc = typeColors[member.memberType] || typeColors.Other;
   const offered = exchanges.filter(e => e.type === 'Offered');
   const requested = exchanges.filter(e => e.type === 'Requested');
 
@@ -180,12 +179,17 @@ export default function MemberProfile() {
             )}
 
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: member.bio ? 14 : 0 }}>
-              <span style={{
-                fontSize: 11, padding: '4px 12px', borderRadius: 20,
-                background: tc.bg, color: tc.color, fontWeight: 600,
-              }}>
-                {member.memberType}
-              </span>
+              {member.memberType?.map(t => {
+                const tc = typeColors[t] || typeColors.Other;
+                return (
+                  <span key={t} style={{
+                    fontSize: 11, padding: '4px 12px', borderRadius: 20,
+                    background: tc.bg, color: tc.color, fontWeight: 600,
+                  }}>
+                    {t}
+                  </span>
+                );
+              })}
               {member.platformRole === 'Mentor' && (
                 <span style={{
                   fontSize: 11, padding: '4px 12px', borderRadius: 20,

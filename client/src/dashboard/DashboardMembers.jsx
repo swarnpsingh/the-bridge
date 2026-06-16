@@ -168,7 +168,6 @@ export default function DashboardMembers() {
           gap: 14,
         }}>
           {sorted.map((m, i) => {
-            const ts       = typeColors[m.memberType] || typeColors.Other;
             const isMe     = m._id === user?._id;
             const isMentor = m.platformRole === 'Mentor';
 
@@ -238,12 +237,17 @@ export default function DashboardMembers() {
                 {/* Tags */}
                 <div style={{ display: 'flex', gap: 6,
                               flexWrap: 'wrap', marginBottom: 12 }}>
-                  <span style={{
-                    fontSize: 11, padding: '3px 10px', borderRadius: 20,
-                    background: ts.bg, color: ts.color, fontWeight: 500,
-                  }}>
-                    {m.memberType}
-                  </span>
+                  {m.memberType?.map(t => {
+                    const ts = typeColors[t] || typeColors.Other;
+                    return (
+                      <span key={t} style={{
+                        fontSize: 11, padding: '3px 10px', borderRadius: 20,
+                        background: ts.bg, color: ts.color, fontWeight: 500,
+                      }}>
+                        {t}
+                      </span>
+                    );
+                  })}
                   {isMentor && (
                     <span style={{
                       fontSize: 11, padding: '3px 10px', borderRadius: 20,

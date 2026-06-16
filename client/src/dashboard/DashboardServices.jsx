@@ -274,8 +274,8 @@ export default function DashboardServices() {
                     </div>
                     <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>
                       {poster.name}
-                      {poster.memberType && (
-                        <span style={{ color: 'var(--text-subtle)' }}> · {poster.memberType}</span>
+                      {poster.memberType?.length > 0 && (
+                        <span style={{ color: 'var(--text-subtle)' }}> · {poster.memberType.join(', ')}</span>
                       )}
                     </div>
                   </div>

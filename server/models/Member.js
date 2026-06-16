@@ -10,9 +10,9 @@ const MemberSchema = new mongoose.Schema({
   company:      { type: String },
   role:         { type: String },
   memberType:   {
-    type: String,
+    type: [String],
     enum: ['Founder','VC','Developer','Designer','Marketer','Lawyer','Other'],
-    required: true,
+    validate: { validator: arr => arr.length > 0, message: 'At least one member tag is required.' },
   },
   platformRole: { type: String, enum: ['Member','Mentor'], default: 'Member' },
   bio:          { type: String },

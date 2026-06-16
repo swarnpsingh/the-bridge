@@ -100,7 +100,7 @@ export default function AdminMembers() {
                     <div style={{ fontWeight: 600, color: 'var(--text-strong)', fontSize: 13 }}>{m.name}</div>
                     <div style={{ fontSize: 12, color: 'var(--text-subtle)' }}>{m.email}</div>
                   </Td>
-                  <Td>{m.memberType || '—'}</Td>
+                  <Td>{m.memberType?.join(', ') || '—'}</Td>
                   <Td>
                     <span style={{
                       fontSize: 11, padding: '3px 10px', borderRadius: 20, fontWeight: 500,

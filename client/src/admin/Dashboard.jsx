@@ -237,7 +237,7 @@ export default function AdminDashboard() {
                     <div style={{ fontWeight: 600, color: 'var(--text-strong)', fontSize: 13 }}>{m.name}</div>
                     <div style={{ fontSize: 12, color: 'var(--text-subtle)' }}>{m.email}</div>
                   </Td>
-                  <Td>{m.memberType || '—'}</Td>
+                  <Td>{m.memberType?.join(', ') || '—'}</Td>
                   <Td>{m.platformRole || 'Member'}</Td>
                   <Td>{fmtDate(m.createdAt)}</Td>
                 </tr>

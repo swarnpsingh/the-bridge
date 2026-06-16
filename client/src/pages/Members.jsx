@@ -166,7 +166,6 @@ export default function Members() {
           gap: 14,
         }}>
           {filtered.map((m, i) => {
-            const typeStyle = typeColors[m.memberType] || typeColors.Other;
             const isMentor  = m.platformRole === 'Mentor';
             return (
               <div key={m._id} style={{
@@ -217,12 +216,17 @@ export default function Members() {
 
                 {/* Tags */}
                 <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 14 }}>
-                  <span style={{
-                    fontSize: 11, padding: '3px 10px', borderRadius: 20,
-                    background: typeStyle.bg, color: typeStyle.color, fontWeight: 500,
-                  }}>
-                    {m.memberType}
-                  </span>
+                  {m.memberType?.map(t => {
+                    const typeStyle = typeColors[t] || typeColors.Other;
+                    return (
+                      <span key={t} style={{
+                        fontSize: 11, padding: '3px 10px', borderRadius: 20,
+                        background: typeStyle.bg, color: typeStyle.color, fontWeight: 500,
+                      }}>
+                        {t}
+                      </span>
+                    );
+                  })}
                   {isMentor && (
                     <span style={{
                       fontSize: 11, padding: '3px 10px', borderRadius: 20,

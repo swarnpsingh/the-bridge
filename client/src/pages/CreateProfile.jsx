@@ -1,17 +1,19 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { createMember } from '../api';
+import { register } from '../api';
+import { useAuth } from '../context/AuthContext';
 
 const MEMBER_TYPES = ['Founder','VC','Developer','Designer','Marketer','Lawyer','Other'];
 
 export default function CreateProfile() {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [loading, setLoading]   = useState(false);
   const [error, setError]       = useState('');
   const [submitted, setSubmitted] = useState(false);
 
   const [form, setForm] = useState({
-    name: '', email: '', linkedin: '', location: '',
+    name: '', email: '', password: '', confirmPassword: '', linkedin: '', location: '',
     role: '', company: '', memberType: [], platformRole: 'Member', bio: '',
   });
 
@@ -23,10 +25,20 @@ export default function CreateProfile() {
       setError('Please fill in name, email and member tag.');
       return;
     }
+    if (form.password.length < 6) {
+      setError('Password must be at least 6 characters.');
+      return;
+    }
+    if (form.password !== form.confirmPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
     setLoading(true);
     setError('');
     try {
-      await createMember(form);
+      const { confirmPassword, ...payload } = form;
+      const res = await register(payload);
+      login(res.data.token, res.data.member);
       setSubmitted(true);
     } catch (err) {
       setError(err.response?.data?.error || 'Something went wrong. Please try again.');
@@ -62,9 +74,15 @@ export default function CreateProfile() {
         Your profile has been created. Start exploring the community.
       </p>
       <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
-        <Link to="/members" style={{
+        <Link to="/dashboard" style={{
           padding: '10px 22px', borderRadius: 999, background: 'linear-gradient(135deg, var(--brand), var(--brand-strong))',
           color: 'var(--brand-contrast)', fontSize: 13, fontWeight: 700,
+        }}>
+          Go to dashboard
+        </Link>
+        <Link to="/members" style={{
+          padding: '10px 22px', borderRadius: 999,
+          border: '1px solid var(--border)', color: 'var(--text-muted)', fontSize: 13, fontWeight: 600,
         }}>
           Browse members
         </Link>
@@ -119,6 +137,20 @@ export default function CreateProfile() {
               <label style={{ ...labelStyle, color: 'var(--text-muted)' }}>Email <span style={{ color: 'var(--danger)' }}>*</span></label>
               <input style={inputStyle} type="email" placeholder="alex@example.com"
                 value={form.email} onChange={e => field('email', e.target.value)}
+                onFocus={e => e.target.style.borderColor = 'var(--brand)'}
+                onBlur={e => e.target.style.borderColor = 'var(--border)'} />
+            </div>
+            <div>
+              <label style={{ ...labelStyle, color: 'var(--text-muted)' }}>Password <span style={{ color: 'var(--danger)' }}>*</span></label>
+              <input style={inputStyle} type="password" placeholder="At least 6 characters"
+                value={form.password} onChange={e => field('password', e.target.value)}
+                onFocus={e => e.target.style.borderColor = 'var(--brand)'}
+                onBlur={e => e.target.style.borderColor = 'var(--border)'} />
+            </div>
+            <div>
+              <label style={{ ...labelStyle, color: 'var(--text-muted)' }}>Confirm password <span style={{ color: 'var(--danger)' }}>*</span></label>
+              <input style={inputStyle} type="password" placeholder="Re-enter password"
+                value={form.confirmPassword} onChange={e => field('confirmPassword', e.target.value)}
                 onFocus={e => e.target.style.borderColor = 'var(--brand)'}
                 onBlur={e => e.target.style.borderColor = 'var(--border)'} />
             </div>
