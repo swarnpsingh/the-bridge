@@ -10,6 +10,7 @@ app.use(cors({
     'http://localhost:3000',
     'https://the-bridge-dusky.vercel.app',
     'https://thebridge.bridgemakersmn.org',
+    'http://thebridge.bridgemakersmn.org',
   ],
   credentials: true,
 }));
