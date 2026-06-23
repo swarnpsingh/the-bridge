@@ -2,15 +2,20 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { getServices, createService, deleteService } from '../api';
 
-const CATEGORIES = ['All','Design','Tech','Marketing','Legal','Finance','Other'];
+const CATEGORIES = ['All','Partnership','Marketing','Design','Content','Website','Software','Business development','Introduction','Events','Work opportunity','Other'];
 
 const categoryColors = {
-  Design:    { bg: '#fce7f3', color: '#9d174d' },
-  Tech:      { bg: '#dbeafe', color: '#1e40af' },
-  Marketing: { bg: '#d1fae5', color: '#065f46' },
-  Legal:     { bg: '#fee2e2', color: '#991b1b' },
-  Finance:   { bg: '#fef3c7', color: '#92400e' },
-  Other:     { bg: '#f3f4f6', color: '#374151' },
+  Partnership:          { bg: '#e0f2fe', color: '#075985' },
+  Marketing:            { bg: '#d1fae5', color: '#065f46' },
+  Design:               { bg: '#fce7f3', color: '#9d174d' },
+  Content:              { bg: '#fef9c3', color: '#713f12' },
+  Website:              { bg: '#dbeafe', color: '#1e40af' },
+  Software:             { bg: '#eef2ff', color: '#3730a3' },
+  'Business development':{ bg: '#fef3c7', color: '#92400e' },
+  Introduction:         { bg: '#ffedd5', color: '#9a3412' },
+  Events:               { bg: '#f0fdf4', color: '#14532d' },
+  'Work opportunity':   { bg: '#ede9fe', color: '#5b21b6' },
+  Other:                { bg: '#f3f4f6', color: '#374151' },
 };
 
 const avatarColors = ['#e0e7ff','#fce7f3','#d1fae5','#fef3c7','#dbeafe','#fee2e2'];
@@ -19,7 +24,7 @@ const initials = (name) =>
   name ? name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0,2) : '?';
 
 const EMPTY_FORM = {
-  title: '', description: '', category: 'Tech', type: 'Offered',
+  title: '', description: '', category: 'Software', type: 'Offered',
 };
 
 export default function DashboardServices() {

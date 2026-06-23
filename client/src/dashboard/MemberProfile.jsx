@@ -5,22 +5,34 @@ import { getMember, getExchangesByMember } from '../api';
 import { useBreakpoint } from '../hooks/useBreakpoint';
 
 const typeColors = {
-  Founder:  { bg: '#fef3c7', color: '#92400e' },
-  VC:       { bg: '#ede9fe', color: '#5b21b6' },
-  Developer:{ bg: '#dbeafe', color: '#1e40af' },
-  Designer: { bg: '#fce7f3', color: '#9d174d' },
-  Marketer: { bg: '#d1fae5', color: '#065f46' },
-  Lawyer:   { bg: '#fee2e2', color: '#991b1b' },
-  Other:    { bg: '#f3f4f6', color: '#374151' },
+  Founder:             { bg: '#fef3c7', color: '#92400e' },
+  Entrepreneur:        { bg: '#ffedd5', color: '#9a3412' },
+  'Software developer':{ bg: '#dbeafe', color: '#1e40af' },
+  Marketing:           { bg: '#d1fae5', color: '#065f46' },
+  'Content creator':   { bg: '#fef9c3', color: '#713f12' },
+  Student:             { bg: '#e0f2fe', color: '#075985' },
+  Artist:              { bg: '#fce7f3', color: '#9d174d' },
+  Musician:            { bg: '#ccfbf1', color: '#0f766e' },
+  Creative:            { bg: '#fff7ed', color: '#c2410c' },
+  Organizer:           { bg: '#f1f5f9', color: '#334155' },
+  Activist:            { bg: '#fee2e2', color: '#991b1b' },
+  'Policy professional':{ bg: '#ede9fe', color: '#5b21b6' },
+  AI:                  { bg: '#eef2ff', color: '#3730a3' },
+  Other:               { bg: '#f3f4f6', color: '#374151' },
 };
 
 const categoryColors = {
-  Design:    { bg: '#fce7f3', color: '#9d174d' },
-  Tech:      { bg: '#dbeafe', color: '#1e40af' },
-  Marketing: { bg: '#d1fae5', color: '#065f46' },
-  Legal:     { bg: '#fee2e2', color: '#991b1b' },
-  Finance:   { bg: '#fef3c7', color: '#92400e' },
-  Other:     { bg: '#f3f4f6', color: '#374151' },
+  Partnership:          { bg: '#e0f2fe', color: '#075985' },
+  Marketing:            { bg: '#d1fae5', color: '#065f46' },
+  Design:               { bg: '#fce7f3', color: '#9d174d' },
+  Content:              { bg: '#fef9c3', color: '#713f12' },
+  Website:              { bg: '#dbeafe', color: '#1e40af' },
+  Software:             { bg: '#eef2ff', color: '#3730a3' },
+  'Business development':{ bg: '#fef3c7', color: '#92400e' },
+  Introduction:         { bg: '#ffedd5', color: '#9a3412' },
+  Events:               { bg: '#f0fdf4', color: '#14532d' },
+  'Work opportunity':   { bg: '#ede9fe', color: '#5b21b6' },
+  Other:                { bg: '#f3f4f6', color: '#374151' },
 };
 
 const initials = (name) =>
