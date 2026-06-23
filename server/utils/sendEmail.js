@@ -1,18 +1,12 @@
-const nodemailer = require('nodemailer');
-
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+const { Resend } = require('resend');
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 module.exports = async function sendEmail({ to, subject, html }) {
-  await transporter.sendMail({
-    from: `"The Bridge" <${process.env.EMAIL_USER}>`,
+  const { error } = await resend.emails.send({
+    from: 'The Bridge <noreply@bridgemakersmn.org>',
     to,
     subject,
     html,
   });
+  if (error) throw new Error(error.message);
 };
