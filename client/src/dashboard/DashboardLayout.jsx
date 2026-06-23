@@ -148,6 +148,23 @@ export default function DashboardLayout() {
           My profile
         </NavLink>
 
+        <a
+          href="https://thebridge.userjot.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: 'flex', alignItems: 'center', gap: 10,
+            padding: '9px 14px', borderRadius: 8,
+            fontSize: 13, color: 'var(--text-muted)', background: 'transparent',
+            textDecoration: 'none', marginTop: 2, transition: 'background 0.15s',
+          }}
+          onMouseEnter={e => e.currentTarget.style.background = 'var(--surface-muted)'}
+          onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+        >
+          <span style={{ fontSize: 16 }}>💬</span>
+          Feedback
+        </a>
+
         <button onClick={handleLogout} style={{
           display: 'flex', alignItems: 'center', gap: 10,
           width: '100%', padding: '9px 14px', borderRadius: 8,
@@ -162,6 +179,28 @@ export default function DashboardLayout() {
           Sign out
         </button>
       </aside>
+
+      {/* ── Floating feedback button ──────────────────────── */}
+      <a
+        href="https://thebridge.userjot.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+        title="Share feedback or report a bug"
+        style={{
+          position: 'fixed', bottom: 24, right: 24, zIndex: 300,
+          display: 'flex', alignItems: 'center', gap: 8,
+          padding: '10px 16px', borderRadius: 999,
+          background: 'var(--brand)', color: 'var(--brand-contrast)',
+          fontSize: 13, fontWeight: 600, textDecoration: 'none',
+          boxShadow: '0 4px 14px rgba(0,0,0,0.18)',
+          transition: 'opacity 0.15s, transform 0.15s',
+        }}
+        onMouseEnter={e => { e.currentTarget.style.opacity = '0.9'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+        onMouseLeave={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'translateY(0)'; }}
+      >
+        <span style={{ fontSize: 16 }}>💬</span>
+        Feedback
+      </a>
 
       {/* ── Main content ─────────────────────────────────── */}
       <main style={{
