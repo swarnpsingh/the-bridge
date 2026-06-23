@@ -85,6 +85,15 @@ export default function App() {
             </Route>
           </Routes>
         </main>
+        <footer style={{
+          textAlign: 'center',
+          padding: '16px',
+          fontSize: '0.8rem',
+          color: 'var(--text-subtle)',
+          borderTop: '1px solid var(--border)',
+        }}>
+          Made with &#9829; by Bridgemakers &copy; {new Date().getFullYear()}
+        </footer>
       </div>
     </BrowserRouter>
   );

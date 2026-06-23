@@ -17,8 +17,8 @@ const MemberSchema = new mongoose.Schema({
   platformRole: { type: String, enum: ['Member','Mentor'], default: 'Member' },
   bio:          { type: String },
   photo:        { type: String },
-  // add interest tags, industry (maybe)
-  // add What are you looking for? + What can you provide?
+  resetOtp:        { type: String },
+  resetOtpExpires: { type: Date },
 }, { timestamps: true });
 
 // Hash password before saving

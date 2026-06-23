@@ -420,13 +420,14 @@ export default function Home() {
 
   // ── Logged-out landing ─────────────────────────────────────
   return (
-    <div style={{ maxWidth: 1100, margin: '0 auto', padding: '32px 24px' }}>
+    <div style={{ maxWidth: 1100, margin: '0 auto', padding: isMobile ? '16px' : '32px 24px' }}>
 
       {/* ── Hero ── */}
       <div className="anim-fade-in" style={{
         position: 'relative', overflow: 'hidden',
         background: 'var(--surface)', border: '1px solid var(--border)',
-        borderRadius: 28, padding: '88px 48px 80px',
+        borderRadius: isMobile ? 20 : 28,
+        padding: isMobile ? '52px 24px 44px' : isTablet ? '64px 40px 60px' : '88px 48px 80px',
         textAlign: 'center', marginBottom: 20,
         boxShadow: 'var(--shadow-strong)',
       }}>
@@ -475,8 +476,9 @@ export default function Home() {
 
         {/* Headline */}
         <h1 className="anim-fade-up" style={{
-          fontSize: 52, fontWeight: 900, lineHeight: 1.07,
-          letterSpacing: '-2px', marginBottom: 20,
+          fontSize: isMobile ? 32 : isTablet ? 42 : 52,
+          fontWeight: 900, lineHeight: 1.07,
+          letterSpacing: isMobile ? '-1px' : '-2px', marginBottom: 20,
           animationDelay: '0.1s',
         }}>
           <span style={{ color: 'var(--text-strong)' }}>Where young leaders</span>
@@ -486,7 +488,7 @@ export default function Home() {
 
         {/* Subtext */}
         <p className="anim-fade-up" style={{
-          fontSize: 18, color: 'var(--text-muted)', maxWidth: 480,
+          fontSize: isMobile ? 15 : 18, color: 'var(--text-muted)', maxWidth: 480,
           margin: '0 auto 40px', lineHeight: 1.75,
           animationDelay: '0.15s',
         }}>
@@ -496,23 +498,27 @@ export default function Home() {
 
         {/* CTAs */}
         <div className="anim-fade-up" style={{
-          display: 'flex', gap: 14, justifyContent: 'center',
+          display: 'flex', gap: 12, justifyContent: 'center',
+          flexDirection: isMobile ? 'column' : 'row',
+          alignItems: 'center',
           flexWrap: 'wrap', animationDelay: '0.2s',
         }}>
           <Link to="/signup" className="shimmer-btn anim-cta-glow" style={{
-            padding: '15px 36px', borderRadius: 12,
+            padding: isMobile ? '13px 28px' : '15px 36px', borderRadius: 12,
             background: 'linear-gradient(135deg, #2563eb, #7c3aed)',
-            color: '#fff', fontSize: 15, fontWeight: 700,
-            textDecoration: 'none',
+            color: '#fff', fontSize: isMobile ? 14 : 15, fontWeight: 700,
+            textDecoration: 'none', width: isMobile ? '100%' : 'auto',
+            textAlign: 'center',
           }}>
             Join for free →
           </Link>
           <Link to="/login" style={{
-            padding: '15px 36px', borderRadius: 12,
+            padding: isMobile ? '13px 28px' : '15px 36px', borderRadius: 12,
             border: '1px solid var(--border)',
             background: 'var(--surface-muted)',
             color: 'var(--text-muted)',
-            fontSize: 15, fontWeight: 600, textDecoration: 'none',
+            fontSize: isMobile ? 14 : 15, fontWeight: 600, textDecoration: 'none',
+            width: isMobile ? '100%' : 'auto', textAlign: 'center',
             transition: 'border-color 0.2s, color 0.2s',
           }}
             onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--brand)'; e.currentTarget.style.color = 'var(--brand)'; }}
@@ -525,7 +531,8 @@ export default function Home() {
 
       {/* ── Feature cards ── */}
       <div style={{
-        display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)',
+        display: 'grid',
+        gridTemplateColumns: isMobile ? '1fr' : isTablet ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
         gap: 16, marginBottom: 20,
       }}>
         {featureCards.map((f, i) => (
@@ -547,7 +554,7 @@ export default function Home() {
           >
             {/* Gradient header bar */}
             <div style={{ height: 5, background: f.grad }} />
-            <div style={{ padding: '26px 26px 28px' }}>
+            <div style={{ padding: isMobile ? '20px' : '26px 26px 28px' }}>
               {/* Gradient icon container */}
               <div style={{
                 width: 52, height: 52, borderRadius: 14,
@@ -573,7 +580,7 @@ export default function Home() {
       <div className="anim-fade-up" style={{
         position: 'relative', overflow: 'hidden',
         background: 'var(--surface)', border: '1px solid var(--border)',
-        borderRadius: 20, padding: '40px 36px', marginBottom: 20,
+        borderRadius: 20, padding: isMobile ? '28px 20px' : '40px 36px', marginBottom: 20,
         boxShadow: 'var(--shadow)',
         animationDelay: '0.1s',
       }}>
@@ -621,7 +628,8 @@ export default function Home() {
       {/* ── Bottom CTA ── */}
       <div className="anim-fade-up" style={{
         position: 'relative', overflow: 'hidden',
-        borderRadius: 24, padding: '60px 48px',
+        borderRadius: isMobile ? 20 : 24,
+        padding: isMobile ? '40px 24px' : isTablet ? '52px 40px' : '60px 48px',
         textAlign: 'center',
         background: 'linear-gradient(135deg, #1e3a8a 0%, #2563eb 35%, #7c3aed 70%, #db2777 100%)',
         backgroundSize: '200% 200%',
@@ -645,11 +653,13 @@ export default function Home() {
 
         <div style={{ position: 'relative' }}>
           <img src="/bridgemakersLogo.png" alt="Bridgemakers" style={{ width: 56, height: 56, objectFit: 'contain', display: 'block', margin: '0 auto 16px' }} />
-          <h2 style={{ fontSize: 30, fontWeight: 900, color: '#fff',
-                       marginBottom: 12, letterSpacing: '-0.8px' }}>
+          <h2 style={{
+            fontSize: isMobile ? 22 : 30, fontWeight: 900, color: '#fff',
+            marginBottom: 12, letterSpacing: '-0.8px',
+          }}>
             Ready to cross the bridge?
           </h2>
-          <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.72)',
+          <p style={{ fontSize: isMobile ? 14 : 15, color: 'rgba(255,255,255,0.72)',
                       marginBottom: 36, maxWidth: 400, margin: '0 auto 36px', lineHeight: 1.7 }}>
             Create your free profile in under 2 minutes and start connecting with the community.
           </p>
