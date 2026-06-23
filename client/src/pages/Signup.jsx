@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { register } from '../api';
 
-const MEMBER_TYPES = ['Founder','VC','Developer','Designer','Marketer','Lawyer','Other'];
+const MEMBER_TYPES = ['Founder','Entrepreneur','Software developer','Marketing','Content creator','Student','Artist','Musician','Creative','Organizer','Activist','Policy professional','AI','Other'];
 
 export default function Signup() {
   const { login } = useAuth();

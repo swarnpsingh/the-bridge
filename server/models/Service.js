@@ -5,7 +5,7 @@ const ServiceSchema = new mongoose.Schema(
     description: { type: String },
     category: {
       type: String,
-      enum: ["Design", "Tech", "Marketing", "Legal", "Finance", "Other"],
+      enum: ["Partnership","Marketing","Design","Content","Website","Software","Business development","Introduction","Events","Work opportunity","Other"],
       required: true,
     },
     type: { type: String, enum: ["Offered", "Requested"], required: true },

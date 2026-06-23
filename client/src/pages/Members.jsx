@@ -2,17 +2,24 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getMembers } from '../api';
 
-const TYPES = ['All', 'Founder', 'VC', 'Developer', 'Designer', 'Marketer', 'Lawyer', 'Other'];
+const TYPES = ['All','Founder','Entrepreneur','Software developer','Marketing','Content creator','Student','Artist','Musician','Creative','Organizer','Activist','Policy professional','AI','Other'];
 const ROLES = ['All', 'Member', 'Mentor'];
 
 const typeColors = {
-  Founder:  { bg: '#fef3c7', color: '#92400e' },
-  VC:       { bg: '#ede9fe', color: '#5b21b6' },
-  Developer:{ bg: '#dbeafe', color: '#1e40af' },
-  Designer: { bg: '#fce7f3', color: '#9d174d' },
-  Marketer: { bg: '#d1fae5', color: '#065f46' },
-  Lawyer:   { bg: '#fee2e2', color: '#991b1b' },
-  Other:    { bg: '#f3f4f6', color: '#374151' },
+  Founder:             { bg: '#fef3c7', color: '#92400e' },
+  Entrepreneur:        { bg: '#ffedd5', color: '#9a3412' },
+  'Software developer':{ bg: '#dbeafe', color: '#1e40af' },
+  Marketing:           { bg: '#d1fae5', color: '#065f46' },
+  'Content creator':   { bg: '#fef9c3', color: '#713f12' },
+  Student:             { bg: '#e0f2fe', color: '#075985' },
+  Artist:              { bg: '#fce7f3', color: '#9d174d' },
+  Musician:            { bg: '#ccfbf1', color: '#0f766e' },
+  Creative:            { bg: '#fff7ed', color: '#c2410c' },
+  Organizer:           { bg: '#f1f5f9', color: '#334155' },
+  Activist:            { bg: '#fee2e2', color: '#991b1b' },
+  'Policy professional':{ bg: '#ede9fe', color: '#5b21b6' },
+  AI:                  { bg: '#eef2ff', color: '#3730a3' },
+  Other:               { bg: '#f3f4f6', color: '#374151' },
 };
 
 const avatarColors = ['#e0e7ff','#fce7f3','#d1fae5','#fef3c7','#dbeafe','#fee2e2','#f3f4f6'];
