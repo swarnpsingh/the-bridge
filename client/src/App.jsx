@@ -93,6 +93,11 @@ export default function App() {
           borderTop: '1px solid var(--border)',
         }}>
           Made with &#9829; by Bridgemakers &copy; {new Date().getFullYear()}
+          <span style={{ margin: '0 10px', opacity: 0.4 }}>·</span>
+          <a href="mailto:admin@bridgemakersmn.org" style={{ color: 'var(--text-subtle)', textDecoration: 'none' }}
+            onMouseEnter={e => e.currentTarget.style.color = 'var(--text-strong)'}
+            onMouseLeave={e => e.currentTarget.style.color = 'var(--text-subtle)'}
+          >admin@bridgemakersmn.org</a>
         </footer>
       </div>
     </BrowserRouter>
