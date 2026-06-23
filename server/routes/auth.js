@@ -12,8 +12,9 @@ router.post('/register', async (req, res) => {
   const msg = `POST /api/auth/register called - body: ${JSON.stringify(req.body)}\n`;
   console.log(msg);
   try { fs.appendFileSync('/tmp/the-bridge-debug.log', msg); } catch (e) {}
-  const { name, email, password, memberType, platformRole,
+  const { name, password, memberType, platformRole,
           linkedin, location, company, role, bio } = req.body;
+  const email = req.body.email?.toLowerCase().trim();
   try {
     const exists = await Member.findOne({ email });
     if (exists) return res.status(400).json({ error: 'Email already registered' });
@@ -41,7 +42,8 @@ router.post('/register', async (req, res) => {
 
 // POST /api/auth/login
 router.post('/login', async (req, res) => {
-  const { email, password } = req.body;
+  const email = req.body.email?.toLowerCase().trim();
+  const { password } = req.body;
   try {
     const member = await Member.findOne({ email });
     if (!member) return res.status(401).json({ error: 'Invalid email or password' });
@@ -65,7 +67,7 @@ router.post('/login', async (req, res) => {
 
 // POST /api/auth/forgot-password
 router.post('/forgot-password', async (req, res) => {
-  const { email } = req.body;
+  const email = req.body.email?.toLowerCase().trim();
   try {
     const member = await Member.findOne({ email });
     if (!member) return res.status(404).json({ error: 'No account found with that email' });
@@ -101,7 +103,8 @@ router.post('/forgot-password', async (req, res) => {
 
 // POST /api/auth/reset-password
 router.post('/reset-password', async (req, res) => {
-  const { email, otp, newPassword } = req.body;
+  const email = req.body.email?.toLowerCase().trim();
+  const { otp, newPassword } = req.body;
   try {
     const member = await Member.findOne({
       email,
