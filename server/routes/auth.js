@@ -24,6 +24,52 @@ router.post('/register', async (req, res) => {
       linkedin, location, company, role, bio,
     });
 
+    sendEmail({
+      to: email,
+      subject: 'Welcome to The Bridge!',
+      html: `
+        <div style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:32px 24px;background:#f8fbff;border-radius:16px">
+          <div style="text-align:center;margin-bottom:24px">
+            <img src="https://bridgemakersmn.org/bridgemakersLogo.png" alt="Bridgemakers" style="width:56px;height:56px;object-fit:contain" />
+          </div>
+          <h2 style="text-align:center;color:#0f172a;font-size:22px;font-weight:800;margin-bottom:8px;letter-spacing:-0.5px">
+            Welcome to The Bridge, ${name}!
+          </h2>
+          <p style="color:#55627a;font-size:14px;text-align:center;margin-bottom:32px;line-height:1.7">
+            You're now part of a growing community of young leaders — founders, developers, mentors, and more.<br/>Here's how to make the most of it.
+          </p>
+
+          <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:20px 24px;margin-bottom:12px">
+            <div style="font-size:14px;font-weight:700;color:#0f172a;margin-bottom:4px">👥 Connect with people of interest</div>
+            <div style="font-size:13px;color:#64748b;line-height:1.6;margin-bottom:10px">Browse the member directory and reach out to founders, developers, mentors, and more who share your interests.</div>
+            <a href="https://bridgemakersmn.org/dashboard/members" style="font-size:12px;font-weight:600;color:#2563eb;text-decoration:none">Browse members →</a>
+          </div>
+
+          <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:20px 24px;margin-bottom:12px">
+            <div style="font-size:14px;font-weight:700;color:#0f172a;margin-bottom:4px">⇄ Post an Exchange</div>
+            <div style="font-size:13px;color:#64748b;line-height:1.6;margin-bottom:10px">Offer a skill or ask for help. Exchanges are a great way to collaborate and give back to the community.</div>
+            <a href="https://bridgemakersmn.org/dashboard/exchanges" style="font-size:12px;font-weight:600;color:#db2777;text-decoration:none">Post an exchange →</a>
+          </div>
+
+          <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:20px 24px;margin-bottom:32px">
+            <div style="font-size:14px;font-weight:700;color:#0f172a;margin-bottom:4px">💬 Share your feedback</div>
+            <div style="font-size:13px;color:#64748b;line-height:1.6;margin-bottom:10px">We're always improving. Let us know what you love, what's missing, or how we can make The Bridge better for you.</div>
+            <a href="YOUR_FEEDBACK_URL" style="font-size:12px;font-weight:600;color:#059669;text-decoration:none">Give feedback →</a>
+          </div>
+
+          <div style="text-align:center">
+            <a href="https://bridgemakersmn.org/dashboard" style="display:inline-block;padding:14px 32px;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;font-size:14px;font-weight:700;border-radius:12px;text-decoration:none">
+              Go to your dashboard →
+            </a>
+          </div>
+
+          <p style="color:#8290a8;font-size:12px;text-align:center;margin-top:32px;line-height:1.7">
+            Questions? Reach us at <a href="mailto:admin@bridgemakersmn.org" style="color:#2563eb;text-decoration:none">admin@bridgemakersmn.org</a>
+          </p>
+        </div>
+      `,
+    }).catch(err => console.error('Welcome email failed:', err));
+
     res.status(201).json({
       token: generateToken(member._id),
       member: {
@@ -45,7 +91,7 @@ router.post('/login', async (req, res) => {
   const email = req.body.email?.toLowerCase().trim();
   const { password } = req.body;
   try {
-    const member = await Member.findOne({ email });
+    const member = await Member.findOne({ email: { $regex: new RegExp(`^${email.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') } });
     if (!member) return res.status(401).json({ error: 'Invalid email or password' });
 
     const match = await member.matchPassword(password);
@@ -69,13 +115,14 @@ router.post('/login', async (req, res) => {
 router.post('/forgot-password', async (req, res) => {
   const email = req.body.email?.toLowerCase().trim();
   try {
-    const member = await Member.findOne({ email });
+    const member = await Member.findOne({ email: { $regex: new RegExp(`^${email.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') } });
     if (!member) return res.status(404).json({ error: 'No account found with that email' });
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    member.resetOtp = otp;
-    member.resetOtpExpires = new Date(Date.now() + 10 * 60 * 1000);
-    await member.save();
+    await Member.updateOne(
+      { _id: member._id },
+      { resetOtp: otp, resetOtpExpires: new Date(Date.now() + 10 * 60 * 1000) }
+    );
 
     await sendEmail({
       to: email,
@@ -116,7 +163,7 @@ router.post('/reset-password', async (req, res) => {
     member.password = newPassword;
     member.resetOtp = undefined;
     member.resetOtpExpires = undefined;
-    await member.save();
+    await member.save({ validateBeforeSave: false });
 
     res.json({ message: 'Password updated successfully' });
   } catch (err) {
