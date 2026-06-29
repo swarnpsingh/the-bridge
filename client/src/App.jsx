@@ -7,6 +7,8 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Members from "./pages/Members";
 import CreateProfile from "./pages/CreateProfile";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsAndConditions from "./pages/TermsAndConditions";
 
 import DashboardLayout from "./dashboard/DashboardLayout";
 import DashboardHome from "./dashboard/DashboardHome";
@@ -48,6 +50,8 @@ export default function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/members" element={<Members />} />
             <Route path="/members/create" element={<CreateProfile />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/terms" element={<TermsAndConditions />} />
 
             {/* Protected dashboard */}
             <Route
@@ -98,6 +102,16 @@ export default function App() {
             onMouseEnter={e => e.currentTarget.style.color = 'var(--text-strong)'}
             onMouseLeave={e => e.currentTarget.style.color = 'var(--text-subtle)'}
           >admin@bridgemakersmn.org</a>
+          <span style={{ margin: '0 10px', opacity: 0.4 }}>·</span>
+          <a href="/privacy" style={{ color: 'var(--text-subtle)', textDecoration: 'none' }}
+            onMouseEnter={e => e.currentTarget.style.color = 'var(--text-strong)'}
+            onMouseLeave={e => e.currentTarget.style.color = 'var(--text-subtle)'}
+          >Privacy Policy</a>
+          <span style={{ margin: '0 10px', opacity: 0.4 }}>·</span>
+          <a href="/terms" style={{ color: 'var(--text-subtle)', textDecoration: 'none' }}
+            onMouseEnter={e => e.currentTarget.style.color = 'var(--text-strong)'}
+            onMouseLeave={e => e.currentTarget.style.color = 'var(--text-subtle)'}
+          >Terms & Conditions</a>
         </footer>
       </div>
     </BrowserRouter>

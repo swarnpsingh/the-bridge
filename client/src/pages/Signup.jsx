@@ -18,6 +18,7 @@ export default function Signup() {
     memberType: [], platformRole: 'Member',
     role: '', company: '', location: '', linkedin: '', bio: '',
   });
+  const [agreed, setAgreed] = useState(false);
 
   const field = (key, val) => setForm(f => ({ ...f, [key]: val }));
 
@@ -48,6 +49,7 @@ export default function Signup() {
 
   const validateStep2 = () => {
     if (!form.memberType.length) return 'Please select at least one member tag.';
+    if (!agreed) return 'Please accept the Privacy Policy and Terms & Conditions to continue.';
     return null;
   };
 
@@ -281,6 +283,30 @@ export default function Signup() {
                   onFocus={() => onFocus('bio')} onBlur={() => onBlur('bio')} />
               </div>
 
+              <label style={{
+                display: 'flex', alignItems: 'flex-start', gap: 10,
+                marginTop: 20, cursor: 'pointer',
+              }}>
+                <input
+                  type="checkbox"
+                  checked={agreed}
+                  onChange={e => setAgreed(e.target.checked)}
+                  style={{ marginTop: 2, accentColor: 'var(--brand)', width: 15, height: 15, flexShrink: 0, cursor: 'pointer' }}
+                />
+                <span style={{ fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.6 }}>
+                  I have read and agree to the{' '}
+                  <a href="/privacy" target="_blank" rel="noopener noreferrer"
+                    style={{ color: 'var(--brand)', fontWeight: 600, textDecoration: 'none' }}
+                    onClick={e => e.stopPropagation()}
+                  >Privacy Policy</a>
+                  {' '}and{' '}
+                  <a href="/terms" target="_blank" rel="noopener noreferrer"
+                    style={{ color: 'var(--brand)', fontWeight: 600, textDecoration: 'none' }}
+                    onClick={e => e.stopPropagation()}
+                  >Terms & Conditions</a>.
+                </span>
+              </label>
+
               {error && (
                 <div style={{
                   marginTop: 16, padding: '10px 14px', borderRadius: 8,
@@ -299,12 +325,13 @@ export default function Signup() {
                 }}>
                   ← Back
                 </button>
-                <button type="submit" disabled={loading} style={{
+                <button type="submit" disabled={loading || !agreed} style={{
                   flex: 1, padding: '13px', borderRadius: 10, fontSize: 14,
-                  fontWeight: 600, border: 'none', cursor: loading ? 'not-allowed' : 'pointer',
-                  background: loading ? 'var(--text-subtle)' : 'linear-gradient(135deg, var(--brand), var(--brand-strong))',
+                  fontWeight: 600, border: 'none', cursor: (loading || !agreed) ? 'not-allowed' : 'pointer',
+                  background: (loading || !agreed) ? 'var(--text-subtle)' : 'linear-gradient(135deg, var(--brand), var(--brand-strong))',
                   color: 'var(--brand-contrast)',
-                  boxShadow: loading ? 'none' : 'var(--shadow)',
+                  boxShadow: (loading || !agreed) ? 'none' : 'var(--shadow)',
+                  opacity: !agreed && !loading ? 0.6 : 1,
                 }}>
                   {loading ? 'Creating account...' : 'Create account →'}
                 </button>
