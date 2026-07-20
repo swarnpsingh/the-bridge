@@ -13,7 +13,8 @@ router.post('/register', async (req, res) => {
   console.log(msg);
   try { fs.appendFileSync('/tmp/the-bridge-debug.log', msg); } catch (e) {}
   const { name, password, memberType, platformRole,
-          linkedin, location, company, role, bio } = req.body;
+          linkedin, location, company, role, bio,
+          phone, promotionsOptIn } = req.body;
   const email = req.body.email?.toLowerCase().trim();
   try {
     const exists = await Member.findOne({ email });
@@ -22,6 +23,7 @@ router.post('/register', async (req, res) => {
     const member = await Member.create({
       name, email, password, memberType, platformRole,
       linkedin, location, company, role, bio,
+      phone, promotionsOptIn,
     });
 
     sendEmail({
@@ -54,7 +56,7 @@ router.post('/register', async (req, res) => {
           <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:20px 24px;margin-bottom:32px">
             <div style="font-size:14px;font-weight:700;color:#0f172a;margin-bottom:4px">💬 Share your feedback</div>
             <div style="font-size:13px;color:#64748b;line-height:1.6;margin-bottom:10px">We're always improving. Let us know what you love, what's missing, or how we can make The Bridge better for you.</div>
-            <a href="YOUR_FEEDBACK_URL" style="font-size:12px;font-weight:600;color:#059669;text-decoration:none">Give feedback →</a>
+            <a href="https://thebridge.userjot.com/" style="font-size:12px;font-weight:600;color:#059669;text-decoration:none">Give feedback →</a>
           </div>
 
           <div style="text-align:center">
@@ -77,6 +79,8 @@ router.post('/register', async (req, res) => {
         memberType: member.memberType, platformRole: member.platformRole,
         linkedin: member.linkedin, location: member.location,
         company: member.company, role: member.role, bio: member.bio,
+        phone: member.phone, showPhone: member.showPhone,
+        promotionsOptIn: member.promotionsOptIn,
       },
     });
   } catch (err) {
@@ -104,6 +108,8 @@ router.post('/login', async (req, res) => {
         memberType: member.memberType, platformRole: member.platformRole,
         linkedin: member.linkedin, location: member.location,
         company: member.company, role: member.role, bio: member.bio,
+        phone: member.phone, showPhone: member.showPhone,
+        promotionsOptIn: member.promotionsOptIn,
       },
     });
   } catch (err) {

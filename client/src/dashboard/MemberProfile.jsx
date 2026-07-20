@@ -184,6 +184,12 @@ export default function MemberProfile() {
               </p>
             )}
 
+            {member.phone && (
+              <p style={{ fontSize: 13, color: 'var(--text-subtle)', marginBottom: 4 }}>
+                📞 {member.phone}
+              </p>
+            )}
+
             {member.location && (
               <p style={{ fontSize: 13, color: 'var(--text-subtle)', marginBottom: 12 }}>
                 📍 {member.location}

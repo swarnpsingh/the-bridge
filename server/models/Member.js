@@ -9,6 +9,9 @@ const MemberSchema = new mongoose.Schema({
   location:     { type: String },
   company:      { type: String },
   role:         { type: String },
+  phone:        { type: String, trim: true },
+  showPhone:    { type: Boolean, default: true },
+  promotionsOptIn: { type: Boolean, default: false },
   memberType:   {
     type: [String],
     enum: ['Founder','Entrepreneur','Software developer','Marketing','Content creator','Student','Artist','Musician','Creative','Organizer','Activist','Policy professional','AI','Other'],

@@ -28,7 +28,8 @@ const initials = (name) =>
 const blankForm = (user) => ({
   name: user?.name || '', linkedin: user?.linkedin || '', location: user?.location || '',
   role: user?.role || '', company: user?.company || '', memberType: user?.memberType || [],
-  bio: user?.bio || '',
+  bio: user?.bio || '', phone: user?.phone || '',
+  showPhone: user?.showPhone !== undefined ? user.showPhone : true,
 });
 
 export default function DashboardProfile() {
@@ -116,6 +117,22 @@ export default function DashboardProfile() {
                 <label style={labelStyle}>Email</label>
                 <input style={{ ...inputStyle, opacity: 0.6, cursor: 'not-allowed' }}
                   value={user.email} disabled />
+              </div>
+              <div>
+                <label style={labelStyle}>Phone number</label>
+                <input style={inputStyle} type="tel" placeholder="(555) 123-4567"
+                  value={form.phone} onChange={e => field('phone', e.target.value)}
+                  onFocus={e => e.target.style.borderColor = 'var(--brand)'}
+                  onBlur={e => e.target.style.borderColor = 'var(--border)'} />
+                <label style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 8, cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    checked={form.showPhone}
+                    onChange={e => field('showPhone', e.target.checked)}
+                    style={{ accentColor: 'var(--brand)', width: 14, height: 14, cursor: 'pointer' }}
+                  />
+                  <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>Show phone number on my profile</span>
+                </label>
               </div>
               <div>
                 <label style={labelStyle}>Current role</label>
@@ -230,6 +247,17 @@ export default function DashboardProfile() {
             <p style={{ fontSize: 13, color: 'var(--text-subtle)', marginBottom: 4 }}>
               {user.email}
             </p>
+
+            {user.phone && (
+              <p style={{ fontSize: 13, color: 'var(--text-subtle)', marginBottom: 4 }}>
+                {user.phone}
+                {!user.showPhone && (
+                  <span style={{ marginLeft: 8, fontSize: 11, color: 'var(--text-subtle)' }}>
+                    (hidden from other members)
+                  </span>
+                )}
+              </p>
+            )}
 
             {(user.role || user.company) && (
               <p style={{ fontSize: 14, color: 'var(--text-muted)', marginBottom: 4 }}>

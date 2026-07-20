@@ -14,11 +14,12 @@ export default function Signup() {
   const [error, setError]   = useState('');
 
   const [form, setForm] = useState({
-    name: '', email: '', password: '', confirmPassword: '',
+    name: '', email: '', phone: '', password: '', confirmPassword: '',
     memberType: [], platformRole: 'Member',
     role: '', company: '', location: '', linkedin: '', bio: '',
   });
   const [agreed, setAgreed] = useState(false);
+  const [promotionsOptIn, setPromotionsOptIn] = useState(false);
 
   const field = (key, val) => setForm(f => ({ ...f, [key]: val }));
 
@@ -68,10 +69,11 @@ export default function Signup() {
     setError('');
     try {
       const res = await register({
-        name: form.name, email: form.email, password: form.password,
+        name: form.name, email: form.email, phone: form.phone, password: form.password,
         memberType: form.memberType, platformRole: form.platformRole,
         role: form.role, company: form.company,
         location: form.location, linkedin: form.linkedin, bio: form.bio,
+        promotionsOptIn,
       });
       login(res.data.token, res.data.member);
       navigate('/dashboard');
@@ -165,6 +167,15 @@ export default function Signup() {
                     value={form.email}
                     onChange={e => field('email', e.target.value)}
                     onFocus={() => onFocus('email')} onBlur={() => onBlur('email')} />
+                </div>
+
+                <div>
+                  <label style={labelStyle}>Phone number</label>
+                  <input style={inputStyle(focused.phone)} type="tel"
+                    placeholder="(555) 123-4567"
+                    value={form.phone}
+                    onChange={e => field('phone', e.target.value)}
+                    onFocus={() => onFocus('phone')} onBlur={() => onBlur('phone')} />
                 </div>
 
                 <div>
@@ -286,6 +297,21 @@ export default function Signup() {
               <label style={{
                 display: 'flex', alignItems: 'flex-start', gap: 10,
                 marginTop: 20, cursor: 'pointer',
+              }}>
+                <input
+                  type="checkbox"
+                  checked={promotionsOptIn}
+                  onChange={e => setPromotionsOptIn(e.target.checked)}
+                  style={{ marginTop: 2, accentColor: 'var(--brand)', width: 15, height: 15, flexShrink: 0, cursor: 'pointer' }}
+                />
+                <span style={{ fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.6 }}>
+                  Keep me updated on promotions, events, and offers from The Bridge.
+                </span>
+              </label>
+
+              <label style={{
+                display: 'flex', alignItems: 'flex-start', gap: 10,
+                marginTop: 12, cursor: 'pointer',
               }}>
                 <input
                   type="checkbox"
