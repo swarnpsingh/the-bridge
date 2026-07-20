@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { register } from '../api';
 import { useAuth } from '../context/AuthContext';
+import OnboardingModal from '../components/OnboardingModal';
 
 const MEMBER_TYPES = ['Founder','Entrepreneur','Software developer','Marketing','Content creator','Student','Artist','Musician','Creative','Organizer','Activist','Policy professional','AI','Other'];
 
@@ -59,42 +60,7 @@ export default function CreateProfile() {
     color: 'var(--text-muted)', marginBottom: 6,
   };
 
-  if (submitted) return (
-    <div style={{
-      maxWidth: 480, margin: '60px auto', background: 'var(--surface)',
-      border: '1px solid var(--border)', borderRadius: 24, padding: '48px 36px',
-      boxShadow: 'var(--shadow)',
-      textAlign: 'center',
-    }}>
-      <div style={{ fontSize: 48, marginBottom: 16 }}>🎉</div>
-      <h2 style={{ fontSize: 22, fontWeight: 800, color: 'var(--text-strong)', marginBottom: 8 }}>
-        You're on The Bridge!
-      </h2>
-      <p style={{ fontSize: 14, color: 'var(--text-muted)', marginBottom: 28, lineHeight: 1.6 }}>
-        Your profile has been created. Start exploring the community.
-      </p>
-      <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
-        <Link to="/dashboard" style={{
-          padding: '10px 22px', borderRadius: 999, background: 'linear-gradient(135deg, var(--brand), var(--brand-strong))',
-          color: 'var(--brand-contrast)', fontSize: 13, fontWeight: 700,
-        }}>
-          Go to dashboard
-        </Link>
-        <Link to="/members" style={{
-          padding: '10px 22px', borderRadius: 999,
-          border: '1px solid var(--border)', color: 'var(--text-muted)', fontSize: 13, fontWeight: 600,
-        }}>
-          Browse members
-        </Link>
-        <Link to="/" style={{
-          padding: '10px 22px', borderRadius: 999,
-          border: '1px solid var(--border)', color: 'var(--text-muted)', fontSize: 13, fontWeight: 600,
-        }}>
-          Go home
-        </Link>
-      </div>
-    </div>
-  );
+  if (submitted) return <OnboardingModal />;
 
   return (
     <div style={{ maxWidth: 680, margin: '0 auto' }}>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { getServices, createService, deleteService } from '../api';
 
@@ -29,6 +30,7 @@ const EMPTY_FORM = {
 
 export default function DashboardServices() {
   const { user } = useAuth();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [services, setServices]   = useState([]);
   const [loading, setLoading]     = useState(true);
@@ -53,6 +55,15 @@ export default function DashboardServices() {
   };
 
   useEffect(() => { load(); }, [tab, category]);
+
+  // Deep link from onboarding: /dashboard/exchanges?post=1
+  useEffect(() => {
+    if (searchParams.get('post')) {
+      setShowForm(true);
+      setSearchParams({}, { replace: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const field  = (k, v) => setForm(f => ({ ...f, [k]: v }));
   const onFocus = (k)   => setFocused(f => ({ ...f, [k]: true }));
