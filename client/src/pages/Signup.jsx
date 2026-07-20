@@ -1,17 +1,18 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { register } from '../api';
+import OnboardingModal from '../components/OnboardingModal';
 
 const MEMBER_TYPES = ['Founder','Entrepreneur','Software developer','Marketing','Content creator','Student','Artist','Musician','Creative','Organizer','Activist','Policy professional','AI','Other'];
 
 export default function Signup() {
   const { login } = useAuth();
-  const navigate  = useNavigate();
 
   const [step, setStep]     = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError]   = useState('');
+  const [submitted, setSubmitted] = useState(false);
 
   const [form, setForm] = useState({
     name: '', email: '', phone: '', password: '', confirmPassword: '',
@@ -76,13 +77,15 @@ export default function Signup() {
         promotionsOptIn,
       });
       login(res.data.token, res.data.member);
-      navigate('/dashboard');
+      setSubmitted(true);
     } catch (err) {
       setError(err.response?.data?.error || 'Something went wrong.');
     } finally {
       setLoading(false);
     }
   };
+
+  if (submitted) return <OnboardingModal />;
 
   return (
     <div style={{
